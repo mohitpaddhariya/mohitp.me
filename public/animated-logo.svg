@@ -1,0 +1,48 @@
+<svg width="110" height="63" viewBox="0 0 110 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .path-m {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: draw 4s ease-out .4s infinite;
+    }
+    .path-p {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: draw 4s ease-out .65s infinite;
+    }
+    .dot {
+      opacity: 0;
+      animation: fade 4s ease-out .4s infinite;
+    }
+    @keyframes draw {
+      0% {
+        stroke-dashoffset: 1000;
+      }
+      50% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: 1000;
+      }
+    }
+    @keyframes fade {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
+  
+  <path class="path-m" d="M3.5 60C3.5 60 14.5 -5.99996 29.5 34C44.5 73.9999 57 -12.5 72 27.5" 
+        stroke="#3B82F6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <path class="path-p" d="M68 59.5C68 59.5 68 3 93 3C118 3 105.5 43 80.5 43" 
+        stroke="#1E293B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <circle class="dot" cx="85" cy="58" r="4" fill="#3B82F6"/>
+</svg>
