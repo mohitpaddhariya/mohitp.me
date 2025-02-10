@@ -2,7 +2,7 @@
 
 Welcome to my personal portfolio website! Here, you can explore my work, projects, and achievements.
 
-- **Portfolio**: [mohitp.me](https://adithyask.com)
+- **Portfolio**: [mohitp.me](https://mohitp.com)
 <!-- - **CV**: [mohitp.me](https://mohitp.com) -->
 - **Resume**: [mohitp.me/resume](https://mohitp.me/resume)
 
