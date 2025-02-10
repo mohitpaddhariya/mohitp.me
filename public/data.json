@@ -1,0 +1,160 @@
+{
+    "profile": {
+        "name": "Mohit Paddhariya",
+        "role": "Full Stack Developer",
+        "tagline": "Building scalable solutions",
+        "image": "/me.jpg",
+        "email": "mohit.paddhariya@gmail.com",
+        "github": "https://github.com/dev-mohit06",
+        "linkedin": "https://linkedin.com/in/mohit-paddhariya"
+    },
+    "about": "Building modern web applications with a focus on scalability and user experience. Passionate about creating efficient solutions using cutting-edge technologies.",
+    "experience": [
+        {
+            "title": "Full Stack Intern",
+            "company": "Imobile Designs",
+            "type": "On Site",
+            "period": "Dec 2023 - Apr 2024",
+            "description": "Part of the Intelligence team, working on knowledge graphs and AI systems."
+        },
+        {
+            "title": "Freelance Developer",
+            "company": "Remote",
+            "type": "Remote",
+            "period": "Jan 2024 - Present",
+            "description": "Developing custom solutions for various clients, focusing on web applications and e-commerce platforms."
+        }
+    ],
+    "skills": {
+        "languages": [
+            "JavaScript",
+            "Python",
+            "Java",
+            "C",
+            "C++",
+            "PHP"
+        ],
+        "webTechnologies": [
+            "React.js",
+            "Node.js",
+            "Express.js",
+            "Laravel",
+            "Android"
+        ],
+        "databases": [
+            "MongoDB",
+            "PostgreSQL",
+            "MySQL"
+        ],
+        "devOps": [
+            "Docker",
+            "AWS",
+            "GCP",
+            "Containerization"
+        ]
+    },
+    "projects": [
+        {
+            "name": "Filekko",
+            "description": "Resource-sharing platform with intuitive interface for storing files and notes",
+            "technologies": [
+                "MERN",
+                "Firebase",
+                "React-Query",
+                "JWT"
+            ]
+        },
+        {
+            "name": "ByteCode",
+            "description": "Full-stack MERN blogging platform with modern blog editor",
+            "technologies": [
+                "MERN",
+                "Firebase",
+                "OAuth2",
+                "Mongoose"
+            ]
+        }
+    ],
+    "openSource": [
+        {
+            "name": "Apache Beam",
+            "description": "Increased SQL package test coverage from 35% to 70%",
+            "prNumber": "33711",
+            "issueNumber": "21384",
+            "technologies": [
+                "Java",
+                "SQL",
+                "JUnit"
+            ],
+            "link": "https://github.com/apache/beam/pull/33711"
+        },
+        {
+            "name": "Internet Archive's Open Library",
+            "description": "Improved performance by implementing lazy loading for Related Books Carousels",
+            "prNumber": "10388",
+            "technologies": [
+                "Python",
+                "JavaScript",
+                "Solr"
+            ],
+            "link": "https://github.com/internetarchive/openlibrary/pull/10388"
+        },
+        {
+            "name": "Monkeytype",
+            "description": "Refactored JSON parsing implementation with schema validation",
+            "prNumber": "6207",
+            "technologies": [
+                "TypeScript",
+                "JSON Schema"
+            ],
+            "link": "https://github.com/monkeytypegame/monkeytype/pull/6207"
+        }
+    ],
+    "education": [
+        {
+            "institution": "P.E.S University",
+            "degree": "Bachelor's Degree in Computer Science",
+            "period": "2024 - 2027"
+        },
+        {
+            "institution": "RK University",
+            "degree": "Diploma in Computer Science",
+            "period": "2021 - 2024",
+            "gpa": "9.56/10"
+        }
+    ],
+    "commandMenu": [
+        {
+            "id": "email",
+            "name": "Send Email",
+            "shortcut": [
+                "E"
+            ],
+            "action": "mailto:mohit.paddhariya@gmail.com"
+        },
+        {
+            "id": "github",
+            "name": "Visit Github",
+            "shortcut": [
+                "G"
+            ],
+            "action": "https://github.com/dev-mohit06"
+        },
+        {
+            "id": "linkedin",
+            "name": "Visit LinkedIn",
+            "shortcut": [
+                "L"
+            ],
+            "action": "https://linkedin.com/in/mohit-paddhariya"
+        },
+        {
+            "id": "resume",
+            "name": "Download Resume",
+            "shortcut": [
+                "R"
+            ],
+            "action": "./resume.pdf"
+        }
+    ]
+}
