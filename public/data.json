@@ -15,14 +15,14 @@
             "company": "Imobile Designs",
             "type": "On Site",
             "period": "Dec 2023 - Apr 2024",
-            "description": "Part of the Intelligence team, working on knowledge graphs and AI systems."
+            "description": "Developed a marketplace backend with Node.js and SQL, built an Android app for Bricks R US with PHP/MongoDB enhancements, and designed a web UI for Velriders using Laravel and Bootstrap."
         },
         {
             "title": "Freelance Developer",
             "company": "Remote",
             "type": "Remote",
             "period": "Jan 2024 - Present",
-            "description": "Developing custom solutions for various clients, focusing on web applications and e-commerce platforms."
+            "description": "Developing custom solutions for various clients, focusing on web applications, mobile application and scalable cloud solution."
         }
     ],
     "skills": {

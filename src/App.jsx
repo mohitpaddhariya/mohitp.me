@@ -1,173 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Github, Linkedin, Mail, Search, Command, ExternalLink } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Github, Linkedin, Mail, Command, ExternalLink, Sun, Moon } from 'lucide-react';
+import CommandMenu from './components/command-menu';
+import LightTrail from './components/light-trail';
 
-const CommandMenu = ({ isOpen, setIsOpen, commands }) => {
-    const [search, setSearch] = useState('');
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
-    const filteredCommands = commands.filter(command =>
-        command.name.toLowerCase().includes(search.toLowerCase())
-    );
-
-    // Reset selection when search changes
-    useEffect(() => {
-        setSelectedIndex(0);
-    }, [search]);
-
-    // Reset search when menu opens
-    useEffect(() => {
-        if (isOpen) {
-            setSearch('');
-            setSelectedIndex(0);
-        }
-    }, [isOpen]);
-
-    const executeCommand = useCallback((command) => {
-        if (command.action.startsWith('http')) {
-            window.open(command.action, '_blank');
-        } else if (command.action.startsWith('mailto')) {
-            window.location.href = command.action;
-        } else if (command.action.startsWith('./')) {
-            window.location.href = command.action;
-        }
-        setIsOpen(false);
-    }, [setIsOpen]);
-
-    const handleKeyDown = useCallback((e) => {
-        if (!isOpen) return;
-
-        // Prevent default behavior for our handled keys
-        if (['ArrowUp', 'ArrowDown', 'Enter', 'Escape', 'Tab'].includes(e.key)) {
-            e.preventDefault();
-        }
-
-        switch (e.key) {
-            case 'ArrowUp':
-                setSelectedIndex(prev =>
-                    prev <= 0 ? filteredCommands.length - 1 : prev - 1
-                );
-                break;
-            case 'ArrowDown':
-                setSelectedIndex(prev =>
-                    prev >= filteredCommands.length - 1 ? 0 : prev + 1
-                );
-                break;
-            case 'Enter':
-                if (filteredCommands[selectedIndex]) {
-                    executeCommand(filteredCommands[selectedIndex]);
-                }
-                break;
-            case 'Escape':
-                setIsOpen(false);
-                break;
-            case 'Tab':
-                setSelectedIndex(prev =>
-                    e.shiftKey
-                        ? prev <= 0 ? filteredCommands.length - 1 : prev - 1
-                        : prev >= filteredCommands.length - 1 ? 0 : prev + 1
-                );
-                break;
-            default:
-                break;
-        }
-    }, [isOpen, filteredCommands, selectedIndex, executeCommand, setIsOpen]);
-
-    // Global keyboard shortcut to open menu
-    useEffect(() => {
-        const handleGlobalKeyDown = (e) => {
-            // Check for Command(⌘)/Ctrl + J
-            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'j') {
-                e.preventDefault();
-                setIsOpen(prev => !prev);
-            }
-        };
-
-        window.addEventListener('keydown', handleGlobalKeyDown);
-        return () => window.removeEventListener('keydown', handleGlobalKeyDown);
-    }, [setIsOpen]);
-
-    // Add event listener for menu keyboard navigation
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [handleKeyDown]);
-
-    const getIcon = (id) => {
-        switch (id) {
-            case 'email': return <Mail className="w-4 h-4" />;
-            case 'github': return <Github className="w-4 h-4" />;
-            case 'linkedin': return <Linkedin className="w-4 h-4" />;
-            case 'resume': return <ExternalLink className="w-4 h-4" />;
-            default: return null;
-        }
-    };
-
-    if (!isOpen) return null;
-
-    return (
-        <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start justify-center pt-32"
-            onClick={(e) => {
-                if (e.target === e.currentTarget) setIsOpen(false);
-            }}
-        >
-            <div className="bg-gray-900 w-full max-w-xl rounded-lg border border-gray-800 overflow-hidden shadow-2xl">
-                <div className="p-4 border-b border-gray-800 flex items-center gap-2">
-                    <Search className="w-4 h-4 text-gray-500" />
-                    <input
-                        type="text"
-                        className="bg-transparent outline-none flex-1 text-gray-300"
-                        placeholder="Type a command or search..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        autoFocus
-                    />
-                    <kbd className="px-2 py-1 text-xs bg-gray-950 rounded text-gray-400">ESC</kbd>
-                </div>
-
-                <div className="py-2 px-1 max-h-96 overflow-y-auto">
-                    {filteredCommands.length === 0 ? (
-                        <div className="px-4 py-2 text-gray-500 text-center">
-                            No matching commands found
-                        </div>
-                    ) : (
-                        filteredCommands.map((command, index) => (
-                            <button
-                                key={command.id}
-                                className={`w-full px-3 py-2 text-left rounded flex items-center justify-between ${selectedIndex === index
-                                    ? 'bg-gray-800 text-purple-400'
-                                    : 'text-gray-300 hover:bg-gray-800'
-                                    }`}
-                                onClick={() => executeCommand(command)}
-                                onMouseEnter={() => setSelectedIndex(index)}
-                            >
-                                <div className="flex items-center gap-2">
-                                    {getIcon(command.id)}
-                                    {command.name}
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    {command.shortcut.map((key, i) => (
-                                        <kbd
-                                            key={i}
-                                            className="px-2 py-1 text-xs bg-gray-950 rounded"
-                                        >
-                                            {key}
-                                        </kbd>
-                                    ))}
-                                </div>
-                            </button>
-                        ))
-                    )}
-                </div>
-            </div>
-        </div>
-    );
-};
+/**
+ * @author Mohit Paddhariya
+ */
 
 const App = () => {
+
     const [isCommandMenuOpen, setIsCommandMenuOpen] = useState(false);
     const [data, setData] = useState(null);
     const [visibleProjects, setVisibleProjects] = useState(2);
+    const [theme, setTheme] = useState('dark');
+    const [isMac, setIsMac] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -176,23 +22,85 @@ const App = () => {
             setData(data);
         };
 
+        // Load saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
         fetchData();
     }, []);
 
+    useEffect(() => {
+        // Check if the user is on macOS
+        const checkPlatform = () => {
+            const platform = navigator.platform.toLowerCase();
+            setIsMac(platform.includes('mac'));
+        };
+
+        checkPlatform();
+    }, []);
+
+    const toggleTheme = () => {
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    };
+
     if (!data) return null;
 
+    const themeStyles = {
+        dark: {
+            background: 'bg-gradient-to-b from-gray-900 to-black',
+            text: 'text-gray-200',
+            card: 'bg-gray-900/30',
+            cardBorder: 'border-gray-800',
+            skillBox: 'bg-gray-800/50',
+            textSecondary: 'text-gray-400',
+            textTertiary: 'text-gray-500',
+            hover: 'hover:bg-gray-800',
+            footer: 'bg-gray-900'
+        },
+        light: {
+            background: 'bg-gradient-to-b from-gray-50 to-white',
+            text: 'text-gray-900',
+            card: 'bg-white',
+            cardBorder: 'border-gray-200',
+            skillBox: 'bg-gray-100',
+            textSecondary: 'text-gray-600',
+            textTertiary: 'text-gray-500',
+            hover: 'hover:bg-gray-100',
+            footer: 'bg-white'
+        }
+    };
+
+    const currentTheme = themeStyles[theme];
+
     return (
-        <div className="pt-10 min-h-screen bg-gradient-to-b from-gray-900 to-black text-gray-200 font-mono relative overflow-hidden selection:bg-purple-500/30 selection:text-white">
+        <div className={`pt-10 min-h-screen ${currentTheme.background} ${currentTheme.text} font-mono relative overflow-hidden selection:bg-purple-500/30 selection:text-${theme === 'dark' ? 'white' : 'black'}`}>
+            {/* Command Menu */}
             <CommandMenu
                 isOpen={isCommandMenuOpen}
                 setIsOpen={setIsCommandMenuOpen}
                 commands={data.commandMenu}
+                theme={theme}
             />
 
+            {/* Light Trail */}
+            <LightTrail theme={theme} />
+
+            {/* Theme effects */}
             <div className="fixed top-0 left-0 w-full h-full pointer-events-none">
-                <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full filter blur-3xl"></div>
-                <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full filter blur-3xl"></div>
+                <div className={`absolute top-0 left-1/4 w-96 h-96 ${theme === 'dark' ? 'bg-purple-600/10' : 'bg-purple-200/30'} rounded-full filter blur-3xl`}></div>
+                <div className={`absolute bottom-0 right-1/4 w-96 h-96 ${theme === 'dark' ? 'bg-blue-600/10' : 'bg-blue-200/30'} rounded-full filter blur-3xl`}></div>
             </div>
+
+            {/* Theme Toggle Button */}
+            <button
+                onClick={toggleTheme}
+                className={`fixed top-4 right-4 p-2 rounded-lg ${currentTheme.hover} ${currentTheme.footer} z-20 ${currentTheme.cardBorder} transition-colors`}
+                aria-label="Toggle theme"
+            >
+                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative">
                 {/* Header Section */}
@@ -201,17 +109,17 @@ const App = () => {
                         <h1 className="text-3xl sm:text-4xl font-light mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-transparent bg-clip-text">
                             {data.profile.name}
                         </h1>
-                        <p className="text-gray-400 mb-6 text-base sm:text-lg">
+                        <p className={`${currentTheme.textSecondary} mb-6 text-base sm:text-lg`}>
                             {data.profile.role} • {data.profile.tagline}
                         </p>
                         <div className="flex space-x-6 justify-center sm:justify-start">
-                            <a href={`mailto:${data.profile.email}`} className="text-gray-400 hover:text-purple-400 transition-colors">
+                            <a href={`mailto:${data.profile.email}`} className={`${currentTheme.textSecondary} hover:text-purple-400 transition-colors`}>
                                 <Mail className="w-5 h-5" />
                             </a>
-                            <a href={data.profile.github} className="text-gray-400 hover:text-pink-400 transition-colors">
+                            <a href={data.profile.github} className={`${currentTheme.textSecondary} hover:text-pink-400 transition-colors`}>
                                 <Github className="w-5 h-5" />
                             </a>
-                            <a href={data.profile.linkedin} className="text-gray-400 hover:text-blue-400 transition-colors">
+                            <a href={data.profile.linkedin} className={`${currentTheme.textSecondary} hover:text-blue-400 transition-colors`}>
                                 <Linkedin className="w-5 h-5" />
                             </a>
                         </div>
@@ -225,7 +133,7 @@ const App = () => {
                 {/* About Section */}
                 <section className="mb-12 sm:mb-20">
                     <h2 className="text-sm uppercase tracking-widest text-purple-400 mb-4">About</h2>
-                    <p className="text-gray-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                    <p className={`${currentTheme.textSecondary} text-base sm:text-lg leading-relaxed max-w-2xl`}>
                         {data.about}
                     </p>
                 </section>
@@ -237,11 +145,13 @@ const App = () => {
                         {data.experience.map((exp, index) => (
                             <div key={index} className="group">
                                 <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
-                                    <h3 className="text-xl group-hover:text-pink-400 transition-colors">{exp.title}</h3>
-                                    <span className="text-gray-500 text-sm sm:text-base">{exp.period}</span>
+                                    <h3 className={`text-xl group-hover:text-pink-400 transition-colors ${currentTheme.text}`}>
+                                        {exp.title}
+                                    </h3>
+                                    <span className={currentTheme.textTertiary}>{exp.period}</span>
                                 </div>
-                                <p className="text-gray-500 mb-2">{exp.company} | {exp.type}</p>
-                                <p className="text-gray-400">{exp.description}</p>
+                                <p className={`${currentTheme.textTertiary} mb-2`}>{exp.company} | {exp.type}</p>
+                                <p className={currentTheme.textSecondary}>{exp.description}</p>
                             </div>
                         ))}
                     </div>
@@ -251,24 +161,24 @@ const App = () => {
                 <section className="mb-12 sm:mb-20">
                     <h2 className="text-sm uppercase tracking-widest text-blue-400 mb-6">Skills</h2>
                     <div className="space-y-3">
-                        <div className="bg-gray-800/50 py-2 px-4 rounded-md">
-                            <span className="text-gray-400 mr-3">AI/ML/DL:</span>
-                            <span className="text-gray-200">{data.skills.languages.join(', ')}</span>
+                        <div className={`${currentTheme.skillBox} py-2 px-4 rounded-md`}>
+                            <span className={`${currentTheme.textSecondary} mr-3`}>AI/ML/DL:</span>
+                            <span>{data.skills.languages.join(', ')}</span>
                         </div>
 
-                        <div className="bg-gray-800/50 py-2 px-4 rounded-md">
-                            <span className="text-gray-400 mr-3">Web Technologies:</span>
-                            <span className="text-gray-200">{data.skills.webTechnologies.join(', ')}</span>
+                        <div className={`${currentTheme.skillBox} py-2 px-4 rounded-md`}>
+                            <span className={`${currentTheme.textSecondary} mr-3`}>Web Technologies:</span>
+                            <span>{data.skills.webTechnologies.join(', ')}</span>
                         </div>
 
-                        <div className="bg-gray-800/50 py-2 px-4 rounded-md">
-                            <span className="text-gray-400 mr-3">Databases:</span>
-                            <span className="text-gray-200">{data.skills.databases.join(', ')}</span>
+                        <div className={`${currentTheme.skillBox} py-2 px-4 rounded-md`}>
+                            <span className={`${currentTheme.textSecondary} mr-3`}>Databases:</span>
+                            <span>{data.skills.databases.join(', ')}</span>
                         </div>
 
-                        <div className="bg-gray-800/50 py-2 px-4 rounded-md">
-                            <span className="text-gray-400 mr-3">DevOps & Cloud:</span>
-                            <span className="text-gray-200">{data.skills.devOps.join(', ')}</span>
+                        <div className={`${currentTheme.skillBox} py-2 px-4 rounded-md`}>
+                            <span className={`${currentTheme.textSecondary} mr-3`}>DevOps & Cloud:</span>
+                            <span>{data.skills.devOps.join(', ')}</span>
                         </div>
                     </div>
                 </section>
@@ -276,31 +186,29 @@ const App = () => {
                 {/* Open Source Section */}
                 <section className="mb-12 sm:mb-20">
                     <h2 className="text-sm uppercase tracking-widest text-green-400 mb-6">Open Source Contributions</h2>
-
-                    {/* Grid Container with Visible Projects */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {data.openSource.slice(0, visibleProjects).map((project, index) => (
                             <div
                                 key={index}
-                                className="group bg-gray-900/30 rounded-xl overflow-hidden border border-gray-800 hover:border-green-500/50 transition-all duration-300"
+                                className={`group ${currentTheme.card} rounded-xl overflow-hidden border ${currentTheme.cardBorder} hover:border-green-500/50 transition-all duration-300`}
                             >
                                 <div className="p-6">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex items-center gap-2">
-                                            <Github className="w-5 h-5 text-gray-400 group-hover:text-green-400 transition-colors" />
-                                            <h3 className="text-lg font-medium text-gray-200 group-hover:text-green-400 transition-colors">
+                                            <Github className={`w-5 h-5 ${currentTheme.textSecondary} group-hover:text-green-400 transition-colors`} />
+                                            <h3 className={`text-lg font-medium ${currentTheme.text} group-hover:text-green-400 transition-colors`}>
                                                 {project.name}
                                             </h3>
                                         </div>
                                     </div>
 
-                                    <p className="text-gray-400 mb-4 line-clamp-2">{project.description}</p>
+                                    <p className={`${currentTheme.textSecondary} mb-4 line-clamp-2`}>{project.description}</p>
 
                                     <div className="flex flex-wrap gap-2 mb-4">
                                         {project.technologies.map((tech, techIndex) => (
                                             <span
                                                 key={techIndex}
-                                                className="px-2.5 py-1 bg-gray-800 text-gray-300 text-sm rounded-md"
+                                                className={`px-2.5 py-1 ${currentTheme.skillBox} ${currentTheme.text} text-sm rounded-md`}
                                             >
                                                 {tech}
                                             </span>
@@ -309,7 +217,7 @@ const App = () => {
 
                                     <div className="flex items-center justify-between">
                                         {project.issueNumber && (
-                                            <span className="text-sm text-gray-500">
+                                            <span className={`text-sm ${currentTheme.textTertiary}`}>
                                                 Issue #{project.issueNumber}
                                             </span>
                                         )}
@@ -317,7 +225,7 @@ const App = () => {
                                             href={project.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-2 text-sm text-gray-400 hover:text-green-400 transition-colors ml-auto"
+                                            className={`flex items-center gap-2 text-sm ${currentTheme.textSecondary} hover:text-green-400 transition-colors ml-auto`}
                                         >
                                             View PR #{project.prNumber}
                                             <ExternalLink className="w-4 h-4" />
@@ -328,7 +236,6 @@ const App = () => {
                         ))}
                     </div>
 
-                    {/* View More Button - Only show if there are more projects to load */}
                     {visibleProjects < data.openSource.length && (
                         <div className="mt-8 text-center">
                             <button
@@ -348,25 +255,25 @@ const App = () => {
                         {data.projects.slice(0, visibleProjects).map((project, index) => (
                             <div
                                 key={index}
-                                className="group bg-gray-900/30 rounded-xl overflow-hidden border border-gray-800 hover:border-purple-500/50 transition-all duration-300"
+                                className={`group ${currentTheme.card} rounded-xl overflow-hidden border ${currentTheme.cardBorder} hover:border-purple-500/50 transition-all duration-300`}
                             >
                                 <div className="p-6">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex items-center gap-2">
-                                            <Github className="w-5 h-5 text-gray-400 group-hover:text-purple-400 transition-colors" />
-                                            <h3 className="text-lg font-medium text-gray-200 group-hover:text-purple-400 transition-colors">
+                                            <Github className={`w-5 h-5 ${currentTheme.textSecondary} group-hover:text-purple-400 transition-colors`} />
+                                            <h3 className={`text-lg font-medium ${currentTheme.text} group-hover:text-purple-400 transition-colors`}>
                                                 {project.name}
                                             </h3>
                                         </div>
                                     </div>
 
-                                    <p className="text-gray-400 mb-4 line-clamp-2">{project.description}</p>
+                                    <p className={`${currentTheme.textSecondary} mb-4 line-clamp-2`}>{project.description}</p>
 
                                     <div className="flex flex-wrap gap-2 mb-4">
                                         {project.technologies.map((tech, techIndex) => (
                                             <span
                                                 key={techIndex}
-                                                className="px-2.5 py-1 bg-gray-800 text-gray-300 text-sm rounded-md"
+                                                className={`px-2.5 py-1 ${currentTheme.skillBox} ${currentTheme.text} text-sm rounded-md`}
                                             >
                                                 {tech}
                                             </span>
@@ -379,7 +286,7 @@ const App = () => {
                                                 href={project.link}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex items-center gap-2 text-sm text-gray-400 hover:text-purple-400 transition-colors"
+                                                className={`flex items-center gap-2 text-sm ${currentTheme.textSecondary} hover:text-purple-400 transition-colors`}
                                             >
                                                 View Project
                                                 <ExternalLink className="w-4 h-4" />
@@ -403,7 +310,6 @@ const App = () => {
                     )}
                 </section>
 
-
                 {/* Education Section */}
                 <section className="mb-12 sm:mb-20">
                     <h2 className="text-sm uppercase tracking-widest text-pink-400 mb-4">Education</h2>
@@ -411,30 +317,27 @@ const App = () => {
                         {data.education.map((edu, index) => (
                             <div key={index} className="group">
                                 <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
-                                    <h3 className="text-xl group-hover:text-pink-400 transition-colors">
+                                    <h3 className={`text-xl ${currentTheme.text} group-hover:text-pink-400 transition-colors`}>
                                         {edu.institution}
                                     </h3>
-                                    <span className="text-gray-500 text-sm sm:text-base">{edu.period}</span>
+                                    <span className={currentTheme.textTertiary}>{edu.period}</span>
                                 </div>
-                                <p className="text-gray-400">{edu.degree}</p>
-                                {edu.gpa && <p className="text-gray-500 mt-2">GPA: {edu.gpa}</p>}
+                                <p className={currentTheme.textSecondary}>{edu.degree}</p>
+                                {edu.gpa && <p className={`${currentTheme.textTertiary} mt-2`}>GPA: {edu.gpa}</p>}
                             </div>
                         ))}
                     </div>
                 </section>
 
-
                 {/* Footer */}
-                <div className="text-center text-gray-500 text-sm">
+                <div className={`fixed bottom-0 left-0 w-full flex justify-center border-t ${currentTheme.footer} ${currentTheme.text} ${currentTheme.cardBorder} text-sm`}>
                     <button
                         onClick={() => setIsCommandMenuOpen(true)}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-800 hover:text-purple-400 transition-colors"
+                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg ${currentTheme.hover} hover:text-purple-400 transition-colors`}
                     >
-                        <Command className="w-4 h-4" />
-                        <span>Press ⌘/J to open command menu</span>
+                        <span>Press {isMac ? '⌘' : 'Ctrl'} + J to open command menu</span>
                     </button>
                 </div>
-
             </div>
         </div>
     );
