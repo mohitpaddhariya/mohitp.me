@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
-import { ExternalLink, Github, Linkedin, Mail, Search } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, Mail, Github, Linkedin, ExternalLink } from 'lucide-react';
 
+// Command Menu Component
 const CommandMenu = ({ isOpen, setIsOpen, commands, theme = 'dark' }) => {
     const [search, setSearch] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -47,7 +48,7 @@ const CommandMenu = ({ isOpen, setIsOpen, commands, theme = 'dark' }) => {
         }
     }, [isOpen]);
 
-    const executeCommand = useCallback((command) => {
+    const executeCommand = (command) => {
         if (command.action.startsWith('http')) {
             window.open(command.action, '_blank');
         } else if (command.action.startsWith('mailto')) {
@@ -56,9 +57,9 @@ const CommandMenu = ({ isOpen, setIsOpen, commands, theme = 'dark' }) => {
             window.location.href = command.action;
         }
         setIsOpen(false);
-    }, [setIsOpen]);
+    };
 
-    const handleKeyDown = useCallback((e) => {
+    const handleKeyDown = (e) => {
         if (!isOpen) return;
 
         if (['ArrowUp', 'ArrowDown', 'Enter', 'Escape', 'Tab'].includes(e.key)) {
@@ -94,24 +95,12 @@ const CommandMenu = ({ isOpen, setIsOpen, commands, theme = 'dark' }) => {
             default:
                 break;
         }
-    }, [isOpen, filteredCommands, selectedIndex, executeCommand, setIsOpen]);
-
-    useEffect(() => {
-        const handleGlobalKeyDown = (e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'j') {
-                e.preventDefault();
-                setIsOpen(prev => !prev);
-            }
-        };
-
-        window.addEventListener('keydown', handleGlobalKeyDown);
-        return () => window.removeEventListener('keydown', handleGlobalKeyDown);
-    }, [setIsOpen]);
+    };
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [handleKeyDown]);
+    }, [handleKeyDown, isOpen]);
 
     const getIcon = (id) => {
         switch (id) {
@@ -155,11 +144,10 @@ const CommandMenu = ({ isOpen, setIsOpen, commands, theme = 'dark' }) => {
                         filteredCommands.map((command, index) => (
                             <button
                                 key={command.id}
-                                className={`w-full px-3 py-2 text-left rounded flex items-center justify-between ${
-                                    selectedIndex === index
+                                className={`w-full px-3 py-2 text-left rounded flex items-center justify-between ${selectedIndex === index
                                         ? `${currentTheme.selectedBg} ${currentTheme.textHover}`
                                         : `${currentTheme.text} ${currentTheme.hoverBg}`
-                                }`}
+                                    }`}
                                 onClick={() => executeCommand(command)}
                                 onMouseEnter={() => setSelectedIndex(index)}
                             >

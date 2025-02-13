@@ -11,7 +11,7 @@ const LightTrail = ({ theme }) => {
     isFirstRenderRef.current = false;
 
     const container = containerRef.current;
-    
+
     const colors = [
       'rgb(99, 102, 241)',  // Indigo
       'rgb(79, 70, 229)',   // Deep indigo
@@ -32,7 +32,7 @@ const LightTrail = ({ theme }) => {
       const block = document.createElement('div');
       const trail = document.createElement('div');
       const wrapper = document.createElement('div');
-      
+
       const startX = -200;
       const startY = Math.random() * window.innerHeight;
       const color = colors[Math.floor(Math.random() * colors.length)];
@@ -42,7 +42,7 @@ const LightTrail = ({ theme }) => {
       const skewX = -20 - Math.random() * 10;
 
       wrapper.style.opacity = 1;
-      
+
       block.style.cssText = `
         position: absolute;
         left: ${startX}px;
@@ -70,7 +70,7 @@ const LightTrail = ({ theme }) => {
       wrapper.appendChild(trail);
       wrapper.appendChild(block);
       container.appendChild(wrapper);
-      
+
       activeAnimationsRef.current.push(wrapper);
 
       // Animate block from left to right
@@ -93,7 +93,7 @@ const LightTrail = ({ theme }) => {
     };
 
     // Create initial batch of blocks
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 30; i++) {
       setTimeout(createBlockAnimation, i * 50);
     }
 
@@ -109,7 +109,7 @@ const LightTrail = ({ theme }) => {
       opacity: 0,
       duration: 1.2, // Longer duration for smoother fade
       ease: "power1.inOut",
-      delay: 0.2, // Start fading after blocks have started
+      delay: .3, // Start fading after blocks have started
       onStart: () => {
         // Keep creating blocks during fade out
         setTimeout(() => {
@@ -129,7 +129,7 @@ const LightTrail = ({ theme }) => {
   }, [theme]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="fixed inset-0 pointer-events-none z-50 overflow-hidden"
       style={{ opacity: 1 }}

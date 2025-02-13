@@ -2,125 +2,190 @@
     "profile": {
         "name": "Mohit Paddhariya",
         "role": "Full Stack Developer",
-        "tagline": "Building scalable solutions",
+        "tagline": "Building scalable and innovative web solutions",
+        "description": "Full Stack Developer specializing in MERN stack, cloud technologies, and open source contributions. Experienced in building scalable web applications and mobile solutions.",
         "image": "/me.jpg",
         "email": "mohit.paddhariya@gmail.com",
         "github": "https://github.com/dev-mohit06",
-        "linkedin": "https://linkedin.com/in/mohit-paddhariya"
+        "linkedin": "https://linkedin.com/in/mohit-paddhariya",
+        "location": "India"
     },
-    "about": "Building modern web applications with a focus on scalability and user experience. Passionate about creating efficient solutions using cutting-edge technologies.",
+    "about": "Building web applications that actually work! Currently deep into full-stack development and cloud architecture, Love tinkering with performance optimization and scalable deployments. Big open-source enthusiast you'll find me contributing to projects that make web development more accessible to everyone. Passionate about crafting efficient solutions and implementing innovative features that push the boundaries of what's possible on the web.",
     "experience": [
+        {
+            "title": "Freelance Developer",
+            "company": "India",
+            "type": "Remote",
+            "period": "Jan 2024 - Present",
+            "description": "Providing end-to-end development solutions for diverse clients:\n- Building custom web applications using modern JavaScript frameworks\n- Developing mobile applications with focus on performance and user experience\n- Implementing scalable cloud solutions using AWS and GCP\n- Offering technical consultation for architecture decisions",
+            "technologies": [
+                "React.js",
+                "Node.js",
+                "MongoDB",
+                "SQL",
+                "PHP",
+                "Laravel",
+                "AWS",
+                "GCP",
+                "Mobile Development"
+            ]
+        },
         {
             "title": "Full Stack Intern",
             "company": "Imobile Designs",
             "type": "On Site",
             "period": "Dec 2023 - Apr 2024",
-            "description": "Developed a marketplace backend with Node.js and SQL, built an Android app for Bricks R US with PHP/MongoDB enhancements, and designed a web UI for Velriders using Laravel and Bootstrap."
-        },
-        {
-            "title": "Freelance Developer",
-            "company": "Remote",
-            "type": "Remote",
-            "period": "Jan 2024 - Present",
-            "description": "Developing custom solutions for various clients, focusing on web applications, mobile application and scalable cloud solution."
+            "description": "Led development of multiple high-impact projects including:\n- Engineered a marketplace backend using Node.js and SQL, implementing robust APIs and security measures\n- Developed an Android application for Bricks R US, integrating PHP backend with MongoDB for improved data management\n- Designed and implemented responsive web UI for Velriders using Laravel and Bootstrap, enhancing user experience",
+            "technologies": [
+                "Node.js",
+                "SQL",
+                "PHP",
+                "MongoDB",
+                "Laravel",
+                "Bootstrap",
+                "Android Development"
+            ]
         }
     ],
     "skills": {
         "languages": [
-            "JavaScript",
+            "JavaScript (ES6+)",
             "Python",
             "Java",
             "C",
             "C++",
-            "PHP"
+            "PHP",
+            "TypeScript"
         ],
         "webTechnologies": [
             "React.js",
             "Node.js",
             "Express.js",
             "Laravel",
-            "Android"
+            "RESTful APIs",
+            "GraphQL",
+            "SASS",
+            "Next.js",
+            "Expo"
         ],
         "databases": [
             "MongoDB",
             "PostgreSQL",
-            "MySQL"
+            "MySQL",
+            "Database Design",
+            "Query Optimization",
+            "ORMs",
+            "NoSQL",
+            "Firebase",
+            "SQLite"
         ],
         "devOps": [
             "Docker",
             "AWS",
             "GCP",
-            "Containerization"
+            "Containerization",
+            "CI/CD",
+            "Infrastructure as Code",
+            "Serverless",
+            "Kubernetes",
+            "Jenkins",
+            "GitOps",
+            "Terraform"
         ]
     },
     "projects": [
         {
             "name": "Filekko",
-            "description": "Resource-sharing platform with intuitive interface for storing files and notes",
+            "description": "Developed a comprehensive resource-sharing platform featuring an intuitive interface for storing and managing files and notes. Implemented real-time collaboration features, secure file storage, and robust user authentication.",
             "technologies": [
-                "MERN",
+                "MongoDB",
+                "Express.js",
+                "React.js",
+                "Node.js",
                 "Firebase",
                 "React-Query",
                 "JWT"
+            ],
+            "highlights": [
+                "Implemented real-time updates using WebSocket",
+                "Secure file storage with encryption",
+                "Collaborative note editing features"
             ]
         },
         {
             "name": "ByteCode",
-            "description": "Full-stack MERN blogging platform with modern blog editor",
+            "description": "Created a feature-rich MERN stack blogging platform with a modern WYSIWYG editor, supporting markdown, code highlighting, and media embedding. Integrated OAuth2 authentication and robust content management system.",
             "technologies": [
-                "MERN",
+                "MongoDB",
+                "Express.js",
+                "React.js",
+                "Node.js",
                 "Firebase",
                 "OAuth2",
                 "Mongoose"
+            ],
+            "highlights": [
+                "Rich text editing with code highlighting",
+                "Social media integration",
+                "Advanced content management features"
             ]
         }
     ],
     "openSource": [
         {
             "name": "Apache Beam",
-            "description": "Increased SQL package test coverage from 35% to 70%",
+            "description": "Made significant contributions to Apache Beam's SQL package, substantially improving test coverage from 35% to 70%. Implemented comprehensive test suites and fixed several critical bugs.",
             "prNumber": "33711",
             "issueNumber": "21384",
             "technologies": [
                 "Java",
+                "Go",
                 "SQL",
-                "JUnit"
+                "JUnit",
+                "Test Automation"
             ],
-            "link": "https://github.com/apache/beam/pull/33711"
+            "link": "https://github.com/apache/beam/pull/33711",
+            "impact": "Improved code reliability and maintainability"
         },
         {
             "name": "Internet Archive's Open Library",
-            "description": "Improved performance by implementing lazy loading for Related Books Carousels",
+            "description": "Enhanced platform performance by implementing lazy loading for Related Books Carousels, significantly improving page load times and user experience.",
             "prNumber": "10388",
             "technologies": [
                 "Python",
                 "JavaScript",
-                "Solr"
+                "Solr",
+                "Performance Optimization"
             ],
-            "link": "https://github.com/internetarchive/openlibrary/pull/10388"
+            "link": "https://github.com/internetarchive/openlibrary/pull/10388",
+            "impact": "Reduced page load time and improved user experience"
         },
         {
             "name": "Monkeytype",
-            "description": "Refactored JSON parsing implementation with schema validation",
+            "description": "Enhanced data integrity by refactoring JSON parsing implementation with comprehensive schema validation, improving error handling and data consistency.",
             "prNumber": "6207",
             "technologies": [
                 "TypeScript",
-                "JSON Schema"
+                "JSON Schema",
+                "Data Validation"
             ],
-            "link": "https://github.com/monkeytypegame/monkeytype/pull/6207"
+            "link": "https://github.com/monkeytypegame/monkeytype/pull/6207",
+            "impact": "Improved data reliability and reduced errors"
         }
     ],
     "education": [
         {
             "institution": "P.E.S University",
             "degree": "Bachelor's Degree in Computer Science",
-            "period": "2024 - 2027"
+            "period": "2024 - 2027",
+            "focus": "Computer Science and Software Engineering"
         },
         {
             "institution": "RK University",
             "degree": "Diploma in Computer Science",
             "period": "2021 - 2024",
-            "gpa": "9.56/10"
+            "gpa": "9.56/10",
+            "achievements": "Student of the Year 2023"
         }
     ],
     "commandMenu": [
@@ -130,7 +195,8 @@
             "shortcut": [
                 "E"
             ],
-            "action": "mailto:mohit.paddhariya@gmail.com"
+            "action": "mailto:mohit.paddhariya@gmail.com",
+            "description": "Contact me via email"
         },
         {
             "id": "github",
@@ -138,7 +204,8 @@
             "shortcut": [
                 "G"
             ],
-            "action": "https://github.com/dev-mohit06"
+            "action": "https://github.com/dev-mohit06",
+            "description": "View my open source contributions"
         },
         {
             "id": "linkedin",
@@ -146,7 +213,8 @@
             "shortcut": [
                 "L"
             ],
-            "action": "https://linkedin.com/in/mohit-paddhariya"
+            "action": "https://linkedin.com/in/mohit-paddhariya",
+            "description": "Connect with me on LinkedIn"
         },
         {
             "id": "resume",
@@ -154,7 +222,44 @@
             "shortcut": [
                 "R"
             ],
-            "action": "./resume.pdf"
+            "action": "./resume.pdf",
+            "description": "Download my detailed resume"
         }
-    ]
+    ],
+    "seoMetadata": {
+        "title": "Mohit Paddhariya",
+        "ogLocale": "en_US",
+        "ogDescription": "Building scalable and innovative web solutions",
+        "description": "Building web applications that actually work! Currently deep into full-stack development and cloud architecture, Love tinkering with performance optimization and scalable deployments. Big open-source enthusiast you'll find me contributing to projects that make web development more accessible to everyone. Passionate about crafting efficient solutions and implementing innovative features that push the boundaries of what's possible on the web.",
+        "keywords": [
+            "Full stack developer",
+            "MERN stack",
+            "Web development",
+            "Cloud solutions",
+            "Open source contributor"
+        ],
+        "canonicalUrl": "https://mohitp.me",
+        "schema": {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Mohit Paddhariya",
+            "jobTitle": "Full Stack Developer",
+            "url": "https://mohitp.me",
+            "sameAs": [
+                "https://github.com/dev-mohit06",
+                "https://linkedin.com/in/mohit-paddhariya"
+            ],
+            "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "P.E.S University"
+            },
+            "knowsAbout": [
+                "Full Stack Development",
+                "MERN Stack",
+                "Cloud Computing",
+                "Mobile Development",
+                "Open Source Development"
+            ]
+        }
+    }
 }

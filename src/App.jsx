@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Command, ExternalLink, Sun, Moon } from 'lucide-react';
+import { Github, Linkedin, Mail, Sun, Moon } from 'lucide-react';
+
+// Import components
 import CommandMenu from './components/command-menu';
 import LightTrail from './components/light-trail';
+import ProjectCard from './components/project-card';
+import OpenSourceCard from './components/opensource-card';
+import SkillBox from './components/skill-box';
+import ExperienceItem from './components/experience-item';
+import EducationItem from './components/education-item';
+import SEO from './components/SEO';
 
 /**
  * @author Mohit Paddhariya
  */
 
 const App = () => {
-
     const [isCommandMenuOpen, setIsCommandMenuOpen] = useState(false);
     const [data, setData] = useState(null);
     const [visibleProjects, setVisibleProjects] = useState(2);
@@ -17,32 +24,64 @@ const App = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await fetch('./data.json');
-            const data = await res.json();
-            setData(data);
+            try {
+                const res = await fetch('/data.json');
+                const jsonData = await res.json();
+                setData(jsonData);
+                // Add schema markup
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.text = JSON.stringify(jsonData.seoMetadata.schema);
+                document.head.appendChild(script);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
 
         // Load saved theme preference
         const savedTheme = localStorage.getItem('theme') || 'dark';
         setTheme(savedTheme);
+        document.documentElement.setAttribute('data-theme', savedTheme);
 
         fetchData();
+
+        // Cleanup schema script
+        return () => {
+            const scripts = document.getElementsByTagName('script');
+            for (let script of scripts) {
+                if (script.type === 'application/ld+json') {
+                    script.remove();
+                }
+            }
+        };
     }, []);
 
     useEffect(() => {
-        // Check if the user is on macOS
+        // Check if user is on macOS
         const checkPlatform = () => {
             const platform = navigator.platform.toLowerCase();
             setIsMac(platform.includes('mac'));
         };
-
         checkPlatform();
+    }, []);
+
+    useEffect(() => {
+        const handleKeyPress = (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'j') {
+                e.preventDefault();
+                setIsCommandMenuOpen(true);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
     }, []);
 
     const toggleTheme = () => {
         const newTheme = theme === 'dark' ? 'light' : 'dark';
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
     };
 
     if (!data) return null;
@@ -75,272 +114,215 @@ const App = () => {
     const currentTheme = themeStyles[theme];
 
     return (
-        <div className={`pt-10 min-h-screen ${currentTheme.background} ${currentTheme.text} font-mono relative overflow-hidden selection:bg-purple-500/30 selection:text-${theme === 'dark' ? 'white' : 'black'}`}>
-            {/* Command Menu */}
-            <CommandMenu
-                isOpen={isCommandMenuOpen}
-                setIsOpen={setIsCommandMenuOpen}
-                commands={data.commandMenu}
-                theme={theme}
+        <>
+            <SEO
+                title={data.seoMetadata.title}
+                description={data.seoMetadata.description}
+                keywords={data.seoMetadata.keywords.join(', ')}
+                ogImage={`${data.seoMetadata.canonicalUrl}${data.profile.image}`}
+                canonical={data.seoMetadata.canonicalUrl}
+                ogDescription={data.seoMetadata.ogDescription}
+                ogLocale={data.seoMetadata.og_locale}
             />
 
-            {/* Light Trail */}
-            <LightTrail theme={theme} />
+            <main className={`pt-10 min-h-screen ${currentTheme.background} ${currentTheme.text} font-mono relative overflow-hidden selection:bg-purple-500/30 selection:text-${theme === 'dark' ? 'white' : 'black'}`}>
+                <CommandMenu
+                    isOpen={isCommandMenuOpen}
+                    setIsOpen={setIsCommandMenuOpen}
+                    commands={data.commandMenu}
+                    theme={theme}
+                />
 
-            {/* Theme effects */}
-            <div className="fixed top-0 left-0 w-full h-full pointer-events-none">
-                <div className={`absolute top-0 left-1/4 w-96 h-96 ${theme === 'dark' ? 'bg-purple-600/10' : 'bg-purple-200/30'} rounded-full filter blur-3xl`}></div>
-                <div className={`absolute bottom-0 right-1/4 w-96 h-96 ${theme === 'dark' ? 'bg-blue-600/10' : 'bg-blue-200/30'} rounded-full filter blur-3xl`}></div>
-            </div>
+                <LightTrail theme={theme} />
 
-            {/* Theme Toggle Button */}
-            <button
-                onClick={toggleTheme}
-                className={`fixed top-4 right-4 p-2 rounded-lg ${currentTheme.hover} ${currentTheme.footer} z-20 ${currentTheme.cardBorder} transition-colors`}
-                aria-label="Toggle theme"
-            >
-                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
+                <div className="fixed top-0 left-0 w-full h-full pointer-events-none" aria-hidden="true">
+                    <div className={`absolute top-0 left-1/4 w-96 h-96 ${theme === 'dark' ? 'bg-purple-600/10' : 'bg-purple-200/30'} rounded-full filter blur-3xl`} />
+                    <div className={`absolute bottom-0 right-1/4 w-96 h-96 ${theme === 'dark' ? 'bg-blue-600/10' : 'bg-blue-200/30'} rounded-full filter blur-3xl`} />
+                </div>
 
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative">
-                {/* Header Section */}
-                <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between mb-12 sm:mb-20">
-                    <div className="text-center sm:text-left mb-8 sm:mb-0">
-                        <h1 className="text-3xl sm:text-4xl font-light mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-transparent bg-clip-text">
-                            {data.profile.name}
-                        </h1>
-                        <p className={`${currentTheme.textSecondary} mb-6 text-base sm:text-lg`}>
-                            {data.profile.role} • {data.profile.tagline}
+                <button
+                    onClick={toggleTheme}
+                    className={`fixed top-4 right-4 p-2 rounded-lg ${currentTheme.hover} ${currentTheme.footer} z-20 ${currentTheme.cardBorder} transition-colors`}
+                    aria-label={`Toggle to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+                >
+                    {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </button>
+
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative">
+                    {/* Header Section */}
+                    <header className="flex flex-col sm:flex-row items-center sm:items-start justify-between mb-12 sm:mb-20">
+                        <div className="text-center sm:text-left mb-8 sm:mb-0">
+                            <h1 className="text-3xl sm:text-4xl font-light mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-transparent bg-clip-text">
+                                {data.profile.name}
+                            </h1>
+                            <p className={`${currentTheme.textSecondary} mb-6 text-base sm:text-lg`}>
+                                {data.profile.role} • {data.profile.tagline}
+                            </p>
+                            <nav className="flex space-x-6 justify-center sm:justify-start" aria-label="Social links">
+                                <a
+                                    href={`mailto:${data.profile.email}`}
+                                    className={`${currentTheme.textSecondary} hover:text-purple-400 transition-colors`}
+                                    aria-label="Send email"
+                                >
+                                    <Mail className="w-5 h-5" />
+                                </a>
+                                <a
+                                    href={data.profile.github}
+                                    className={`${currentTheme.textSecondary} hover:text-pink-400 transition-colors`}
+                                    aria-label="GitHub profile"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Github className="w-5 h-5" />
+                                </a>
+                                <a
+                                    href={data.profile.linkedin}
+                                    className={`${currentTheme.textSecondary} hover:text-blue-400 transition-colors`}
+                                    aria-label="LinkedIn profile"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Linkedin className="w-5 h-5" />
+                                </a>
+                            </nav>
+                        </div>
+                        <div className="w-24 h-24 sm:w-32 sm:h-32 relative group">
+                            <img
+                                src={data.profile.image}
+                                alt={`${data.profile.name} - ${data.profile.role}`}
+                                className="relative w-full rounded-lg shadow-lg"
+                                width="128"
+                                height="128"
+                                loading="eager"
+                            />
+                        </div>
+                    </header>
+
+                    {/* About Section */}
+                    <section className="mb-12 sm:mb-20" aria-labelledby="about-heading">
+                        <h2 id="about-heading" className="text-sm uppercase tracking-widest text-purple-400 mb-4">
+                            About
+                        </h2>
+                        <p className={`${currentTheme.textSecondary} text-base sm:text-lg leading-relaxed`}>
+                            {data.about}
                         </p>
-                        <div className="flex space-x-6 justify-center sm:justify-start">
-                            <a href={`mailto:${data.profile.email}`} className={`${currentTheme.textSecondary} hover:text-purple-400 transition-colors`}>
-                                <Mail className="w-5 h-5" />
-                            </a>
-                            <a href={data.profile.github} className={`${currentTheme.textSecondary} hover:text-pink-400 transition-colors`}>
-                                <Github className="w-5 h-5" />
-                            </a>
-                            <a href={data.profile.linkedin} className={`${currentTheme.textSecondary} hover:text-blue-400 transition-colors`}>
-                                <Linkedin className="w-5 h-5" />
-                            </a>
+                    </section>
+
+                    {/* Experience Section */}
+                    <section className="mb-12 sm:mb-20" aria-labelledby="experience-heading">
+                        <h2 id="experience-heading" className="text-sm uppercase tracking-widest text-pink-400 mb-4">
+                            Work Experience
+                        </h2>
+                        <div className="space-y-8">
+                            {data.experience.map((exp, index) => (
+                                <ExperienceItem
+                                    key={index}
+                                    experience={exp}
+                                    theme={currentTheme}
+                                />
+                            ))}
                         </div>
-                    </div>
-                    <div className="w-24 h-24 sm:w-32 sm:h-32 relative group">
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 rounded-lg transform rotate-6 group-hover:rotate-12 transition-transform"></div>
-                        <img src={data.profile.image} alt="Profile" className="relative w-full rounded-lg shadow-lg" />
-                    </div>
+                    </section>
+
+                    {/* Skills Section */}
+                    <section className="mb-12 sm:mb-20" aria-labelledby="skills-heading">
+                        <h2 id="skills-heading" className="text-sm uppercase tracking-widest text-blue-400 mb-6">
+                            Skills
+                        </h2>
+                        <div className="space-y-3">
+                            {Object.entries(data.skills).map(([category, skills], index) => (
+                                <SkillBox
+                                    key={index}
+                                    category={category}
+                                    skills={skills}
+                                    theme={currentTheme}
+                                />
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Open Source Section */}
+                    <section className="mb-12 sm:mb-20" aria-labelledby="opensource-heading">
+                        <h2 id="opensource-heading" className="text-sm uppercase tracking-widest text-green-400 mb-6">
+                            Open Source Contributions
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {data.openSource.slice(0, visibleProjects).map((project, index) => (
+                                <OpenSourceCard
+                                    key={index}
+                                    project={project}
+                                    theme={currentTheme}
+                                />
+                            ))}
+                        </div>
+                        {visibleProjects < data.openSource.length && (
+                            <div className="mt-8 text-center">
+                                <button
+                                    onClick={() => setVisibleProjects(prev => prev + 4)}
+                                    className="px-6 py-2 border border-green-500/30 hover:border-green-500/60 rounded-lg text-green-400 hover:text-green-300 transition-colors"
+                                >
+                                    View More Contributions
+                                </button>
+                            </div>
+                        )}
+                    </section>
+
+                    {/* Projects Section */}
+                    <section className="mb-12 sm:mb-20" aria-labelledby="projects-heading">
+                        <h2 id="projects-heading" className="text-sm uppercase tracking-widest text-purple-400 mb-6">
+                            Projects
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {data.projects.slice(0, visibleProjects).map((project, index) => (
+                                <ProjectCard
+                                    key={index}
+                                    project={project}
+                                    theme={currentTheme}
+                                />
+                            ))}
+                        </div>
+                        {visibleProjects < data.projects.length && (
+                            <div className="mt-8 text-center">
+                                <button
+                                    onClick={() => setVisibleProjects(prev => prev + 4)}
+                                    className="px-6 py-2 border border-purple-500/30 hover:border-purple-500/60 rounded-lg text-purple-400 hover:text-purple-300 transition-colors"
+                                >
+                                    View More Projects
+                                </button>
+                            </div>
+                        )}
+                    </section>
+
+                    {/* Education Section */}
+                    <section className="mb-12 sm:mb-20" aria-labelledby="education-heading">
+                        <h2 id="education-heading" className="text-sm uppercase tracking-widest text-pink-400 mb-4">
+                            Education
+                        </h2>
+                        <div className="space-y-8">
+                            {data.education.map((edu, index) => (
+                                <EducationItem
+                                    key={index}
+                                    education={edu}
+                                    theme={currentTheme}
+                                />
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className={`fixed bottom-0 left-0 w-full flex justify-center border-t ${currentTheme.footer} ${currentTheme.text} ${currentTheme.cardBorder} text-sm`}>
+                        <button
+                            onClick={() => setIsCommandMenuOpen(true)}
+                            className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg ${currentTheme.hover} hover:text-purple-400 transition-colors`}
+                            aria-label="Open command menu"
+                        >
+                            <span>Press {isMac ? '⌘' : 'Ctrl'} + J to open command menu</span>
+                        </button>
+                    </footer>
                 </div>
-
-                {/* About Section */}
-                <section className="mb-12 sm:mb-20">
-                    <h2 className="text-sm uppercase tracking-widest text-purple-400 mb-4">About</h2>
-                    <p className={`${currentTheme.textSecondary} text-base sm:text-lg leading-relaxed max-w-2xl`}>
-                        {data.about}
-                    </p>
-                </section>
-
-                {/* Work Experience Section */}
-                <section className="mb-12 sm:mb-20">
-                    <h2 className="text-sm uppercase tracking-widest text-pink-400 mb-4">Work Experience</h2>
-                    <div className="space-y-8">
-                        {data.experience.map((exp, index) => (
-                            <div key={index} className="group">
-                                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
-                                    <h3 className={`text-xl group-hover:text-pink-400 transition-colors ${currentTheme.text}`}>
-                                        {exp.title}
-                                    </h3>
-                                    <span className={currentTheme.textTertiary}>{exp.period}</span>
-                                </div>
-                                <p className={`${currentTheme.textTertiary} mb-2`}>{exp.company} | {exp.type}</p>
-                                <p className={currentTheme.textSecondary}>{exp.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                {/* Skills Section */}
-                <section className="mb-12 sm:mb-20">
-                    <h2 className="text-sm uppercase tracking-widest text-blue-400 mb-6">Skills</h2>
-                    <div className="space-y-3">
-                        <div className={`${currentTheme.skillBox} py-2 px-4 rounded-md`}>
-                            <span className={`${currentTheme.textSecondary} mr-3`}>AI/ML/DL:</span>
-                            <span>{data.skills.languages.join(', ')}</span>
-                        </div>
-
-                        <div className={`${currentTheme.skillBox} py-2 px-4 rounded-md`}>
-                            <span className={`${currentTheme.textSecondary} mr-3`}>Web Technologies:</span>
-                            <span>{data.skills.webTechnologies.join(', ')}</span>
-                        </div>
-
-                        <div className={`${currentTheme.skillBox} py-2 px-4 rounded-md`}>
-                            <span className={`${currentTheme.textSecondary} mr-3`}>Databases:</span>
-                            <span>{data.skills.databases.join(', ')}</span>
-                        </div>
-
-                        <div className={`${currentTheme.skillBox} py-2 px-4 rounded-md`}>
-                            <span className={`${currentTheme.textSecondary} mr-3`}>DevOps & Cloud:</span>
-                            <span>{data.skills.devOps.join(', ')}</span>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Open Source Section */}
-                <section className="mb-12 sm:mb-20">
-                    <h2 className="text-sm uppercase tracking-widest text-green-400 mb-6">Open Source Contributions</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {data.openSource.slice(0, visibleProjects).map((project, index) => (
-                            <div
-                                key={index}
-                                className={`group ${currentTheme.card} rounded-xl overflow-hidden border ${currentTheme.cardBorder} hover:border-green-500/50 transition-all duration-300`}
-                            >
-                                <div className="p-6">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="flex items-center gap-2">
-                                            <Github className={`w-5 h-5 ${currentTheme.textSecondary} group-hover:text-green-400 transition-colors`} />
-                                            <h3 className={`text-lg font-medium ${currentTheme.text} group-hover:text-green-400 transition-colors`}>
-                                                {project.name}
-                                            </h3>
-                                        </div>
-                                    </div>
-
-                                    <p className={`${currentTheme.textSecondary} mb-4 line-clamp-2`}>{project.description}</p>
-
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        {project.technologies.map((tech, techIndex) => (
-                                            <span
-                                                key={techIndex}
-                                                className={`px-2.5 py-1 ${currentTheme.skillBox} ${currentTheme.text} text-sm rounded-md`}
-                                            >
-                                                {tech}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    <div className="flex items-center justify-between">
-                                        {project.issueNumber && (
-                                            <span className={`text-sm ${currentTheme.textTertiary}`}>
-                                                Issue #{project.issueNumber}
-                                            </span>
-                                        )}
-                                        <a
-                                            href={project.link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className={`flex items-center gap-2 text-sm ${currentTheme.textSecondary} hover:text-green-400 transition-colors ml-auto`}
-                                        >
-                                            View PR #{project.prNumber}
-                                            <ExternalLink className="w-4 h-4" />
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {visibleProjects < data.openSource.length && (
-                        <div className="mt-8 text-center">
-                            <button
-                                onClick={() => setVisibleProjects(prev => prev + 4)}
-                                className="px-6 py-2 border border-green-500/30 hover:border-green-500/60 rounded-lg text-green-400 hover:text-green-300 transition-colors"
-                            >
-                                View More Contributions
-                            </button>
-                        </div>
-                    )}
-                </section>
-
-                {/* Projects Section */}
-                <section className="mb-12 sm:mb-20">
-                    <h2 className="text-sm uppercase tracking-widest text-purple-400 mb-6">Projects</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {data.projects.slice(0, visibleProjects).map((project, index) => (
-                            <div
-                                key={index}
-                                className={`group ${currentTheme.card} rounded-xl overflow-hidden border ${currentTheme.cardBorder} hover:border-purple-500/50 transition-all duration-300`}
-                            >
-                                <div className="p-6">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="flex items-center gap-2">
-                                            <Github className={`w-5 h-5 ${currentTheme.textSecondary} group-hover:text-purple-400 transition-colors`} />
-                                            <h3 className={`text-lg font-medium ${currentTheme.text} group-hover:text-purple-400 transition-colors`}>
-                                                {project.name}
-                                            </h3>
-                                        </div>
-                                    </div>
-
-                                    <p className={`${currentTheme.textSecondary} mb-4 line-clamp-2`}>{project.description}</p>
-
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        {project.technologies.map((tech, techIndex) => (
-                                            <span
-                                                key={techIndex}
-                                                className={`px-2.5 py-1 ${currentTheme.skillBox} ${currentTheme.text} text-sm rounded-md`}
-                                            >
-                                                {tech}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    {project.link && (
-                                        <div className="flex items-center justify-end">
-                                            <a
-                                                href={project.link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className={`flex items-center gap-2 text-sm ${currentTheme.textSecondary} hover:text-purple-400 transition-colors`}
-                                            >
-                                                View Project
-                                                <ExternalLink className="w-4 h-4" />
-                                            </a>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {visibleProjects < data.projects.length && (
-                        <div className="mt-8 text-center">
-                            <button
-                                onClick={() => setVisibleProjects(prev => prev + 4)}
-                                className="px-6 py-2 border border-purple-500/30 hover:border-purple-500/60 rounded-lg text-purple-400 hover:text-purple-300 transition-colors"
-                            >
-                                View More Projects
-                            </button>
-                        </div>
-                    )}
-                </section>
-
-                {/* Education Section */}
-                <section className="mb-12 sm:mb-20">
-                    <h2 className="text-sm uppercase tracking-widest text-pink-400 mb-4">Education</h2>
-                    <div className="space-y-8">
-                        {data.education.map((edu, index) => (
-                            <div key={index} className="group">
-                                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
-                                    <h3 className={`text-xl ${currentTheme.text} group-hover:text-pink-400 transition-colors`}>
-                                        {edu.institution}
-                                    </h3>
-                                    <span className={currentTheme.textTertiary}>{edu.period}</span>
-                                </div>
-                                <p className={currentTheme.textSecondary}>{edu.degree}</p>
-                                {edu.gpa && <p className={`${currentTheme.textTertiary} mt-2`}>GPA: {edu.gpa}</p>}
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                {/* Footer */}
-                <div className={`fixed bottom-0 left-0 w-full flex justify-center border-t ${currentTheme.footer} ${currentTheme.text} ${currentTheme.cardBorder} text-sm`}>
-                    <button
-                        onClick={() => setIsCommandMenuOpen(true)}
-                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg ${currentTheme.hover} hover:text-purple-400 transition-colors`}
-                    >
-                        <span>Press {isMac ? '⌘' : 'Ctrl'} + J to open command menu</span>
-                    </button>
-                </div>
-            </div>
-        </div>
+            </main>
+        </>
     );
-}
+};
 
 export default App;
