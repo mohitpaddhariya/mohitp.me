@@ -10,6 +10,7 @@ import SkillBox from './components/skill-box';
 import ExperienceItem from './components/experience-item';
 import EducationItem from './components/education-item';
 import SEO from './components/SEO';
+import GoogleAnalytics from './components/google-analytics';
 
 /**
  * @author Mohit Paddhariya
@@ -115,6 +116,9 @@ const App = () => {
 
     return (
         <>
+            {/* Google Analytics */}
+            <GoogleAnalytics trackingId={data.seoMetadata.googleAnalytics} />
+
             <SEO
                 title={data.seoMetadata.title}
                 description={data.seoMetadata.description}
