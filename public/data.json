@@ -227,6 +227,7 @@
         }
     ],
     "seoMetadata": {
+        "googleAnalytics": "G-5XHPH41JK6",
         "title": "Mohit Paddhariya",
         "ogLocale": "en_US",
         "ogDescription": "Building scalable and innovative web solutions",
@@ -259,8 +260,7 @@
                 "Cloud Computing",
                 "Mobile Development",
                 "Open Source Development"
-            ],
-            "googleAnalytics": "G-5XHPH41JK6"
+            ]
         }
     }
 }
