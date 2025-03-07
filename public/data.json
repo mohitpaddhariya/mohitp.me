@@ -54,6 +54,9 @@
             "Java",
             "C",
             "C++",
+            "Assembly",
+            "Swift",
+            "Objective-C",
             "PHP",
             "TypeScript"
         ],
@@ -65,8 +68,14 @@
             "RESTful APIs",
             "GraphQL",
             "SASS",
-            "Next.js",
-            "Expo"
+            "Next.js"
+        ],
+        "appDevlopement": [
+            "React Native",
+            "Expo",
+            "Android",
+            "IOS",
+            "XML"
         ],
         "databases": [
             "MongoDB",
@@ -148,6 +157,18 @@
             "impact": "Improved code reliability and maintainability"
         },
         {
+            "name": "Monkeytype",
+            "description": "Enhanced data integrity by refactoring JSON parsing implementation with comprehensive schema validation, improving error handling and data consistency.",
+            "prNumber": "6207",
+            "technologies": [
+                "TypeScript",
+                "JSON Schema",
+                "Data Validation"
+            ],
+            "link": "https://github.com/monkeytypegame/monkeytype/pull/6207",
+            "impact": "Improved data reliability and reduced errors"
+        },
+        {
             "name": "Internet Archive's Open Library",
             "description": "Enhanced platform performance by implementing lazy loading for Related Books Carousels, significantly improving page load times and user experience.",
             "prNumber": "10388",
@@ -159,18 +180,6 @@
             ],
             "link": "https://github.com/internetarchive/openlibrary/pull/10388",
             "impact": "Reduced page load time and improved user experience"
-        },
-        {
-            "name": "Monkeytype",
-            "description": "Enhanced data integrity by refactoring JSON parsing implementation with comprehensive schema validation, improving error handling and data consistency.",
-            "prNumber": "6207",
-            "technologies": [
-                "TypeScript",
-                "JSON Schema",
-                "Data Validation"
-            ],
-            "link": "https://github.com/monkeytypegame/monkeytype/pull/6207",
-            "impact": "Improved data reliability and reduced errors"
         }
     ],
     "education": [
