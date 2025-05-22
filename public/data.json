@@ -104,24 +104,6 @@
     },
     "projects": [
         {
-            "name": "Filekko",
-            "description": "Developed a comprehensive resource-sharing platform featuring an intuitive interface for storing and managing files and notes. Implemented real-time collaboration features, secure file storage, and robust user authentication.",
-            "technologies": [
-                "MongoDB",
-                "Express.js",
-                "React.js",
-                "Node.js",
-                "Firebase",
-                "React-Query",
-                "JWT"
-            ],
-            "highlights": [
-                "Implemented real-time updates using WebSocket",
-                "Secure file storage with encryption",
-                "Collaborative note editing features"
-            ]
-        },
-        {
             "name": "ByteCode",
             "description": "Created a feature-rich MERN stack blogging platform with a modern WYSIWYG editor, supporting markdown, code highlighting, and media embedding. Integrated OAuth2 authentication and robust content management system.",
             "technologies": [
@@ -137,7 +119,48 @@
                 "Rich text editing with code highlighting",
                 "Social media integration",
                 "Advanced content management features"
-            ]
+            ],
+            "link": "https://github.com/dev-mohit06/bytecode"
+        },
+        {
+            "name": "Film Fusion",
+            "description": "Developed a full-featured movie streaming platform using Laravel with a custom-built authentication system including email verification. Implemented payment gateway integration with Stripe using AJAX. Built a secure admin panel for uploading movies, managing users, subscriptions, and purchases, all handled with native HTML, CSS, and JavaScript without any component libraries.",
+            "technologies": [
+                "Laravel",
+                "PHP",
+                "MySQL",
+                "AJAX",
+                "Stripe API",
+                "HTML",
+                "CSS",
+                "JavaScript"
+            ],
+            "highlights": [
+                "Built custom auth with email verification and password reset",
+                "Integrated Stripe payments via AJAX for smooth transactions",
+                "Developed admin panel to manage movies, users, and subscriptions",
+                "Implemented secure subscription purchase and management"
+            ],
+            "link": "https://github.com/dev-mohit06/film-fusion"
+        },
+        {
+            "name": "Filekko",
+            "description": "Developed a comprehensive resource-sharing platform featuring an intuitive interface for storing and managing files and notes. Implemented real-time collaboration features, secure file storage, and robust user authentication.",
+            "technologies": [
+                "MongoDB",
+                "Express.js",
+                "React.js",
+                "Node.js",
+                "Firebase",
+                "React-Query",
+                "JWT"
+            ],
+            "highlights": [
+                "Implemented real-time updates using WebSocket",
+                "Secure file storage with encryption",
+                "Collaborative note editing features"
+            ],
+            "link": "https://github.com/dev-mohit06/filekko"
         }
     ],
     "openSource": [

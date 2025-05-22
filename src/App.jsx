@@ -19,7 +19,7 @@ import GoogleAnalytics from './components/google-analytics';
 const App = () => {
     const [isCommandMenuOpen, setIsCommandMenuOpen] = useState(false);
     const [data, setData] = useState(null);
-    const [visibleProjects, setVisibleProjects] = useState(4);
+    const [visibleProjects, setVisibleProjects] = useState(2);
     const [theme, setTheme] = useState('dark');
     const [isMac, setIsMac] = useState(false);
 
