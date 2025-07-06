@@ -10,7 +10,7 @@ import remarkHtml from 'remark-html'
 import { Metadata } from 'next'
 
 // Generate metadata for work pages
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   
   // Get the work item data
@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 interface WorkDetailPageProps {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 // Function to get work data from markdown file

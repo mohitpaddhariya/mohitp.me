@@ -14,18 +14,18 @@ const TestimonialCard = ({ name, title, company, initials, profileImage, testimo
     <div className="space-y-4 sm:space-y-6 pt-6 border-t border-theme-alt">
       <div className="flex items-center gap-3 sm:gap-4">
         <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-theme-card border border-theme-alt flex items-center justify-center">
-            <Image
-            fill
-            priority
-            src={profileImage || "/me.jpg"}
-            alt={initials}
-            className="w-full h-full object-cover rounded-full"
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.style.display = "none";
+          <Image
+            src={profileImage || `/images/initials/${initials}.png`}
+            alt={`${name}'s profile picture`}
+            width={56}
+            height={56}
+            className="rounded-full object-cover"
+            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+              // Fallback to initials image if profileImage fails to load
+              e.currentTarget.src = `/images/initials/${initials}.png`;
             }}
-            />
-            {/* <span className="text-sm sm:text-base font-saprona-semibold text-theme">{initials}</span> */}
+          />
+          {/* <span className="text-sm sm:text-base font-saprona-semibold text-theme">{initials}</span> */}
         </div>
         <div>
           <h4 className="text-base sm:text-lg md:text-xl font-saprona-semibold text-theme">{name}</h4>

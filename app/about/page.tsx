@@ -123,7 +123,8 @@
         institution: "P.E.S University",
         degree: "Bachelor's Degree in Computer Science",
         focus: "Computer Science and Software Engineering",
-        period: "2024 - 2027"
+        period: "2024 - Present",
+        achievements: ["Mentor for National Hackathon 2025"]
       },
       {
         institution: "RK University",
