@@ -10,7 +10,7 @@ const HeroSection = ({ title, subtitle }: HeroSectionProps) => {
       <div className="mb-8 sm:mb-10 lg:mb-12">
         <div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[100px] font-bogue-light text-theme leading-[0.9] tracking-tight">
-            Hi! I'm
+            Hi! I&apos;m
           </h1>
         </div>
         <div>

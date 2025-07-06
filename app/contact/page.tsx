@@ -6,7 +6,7 @@ import { Mail, Linkedin, Github, MapPin, ArrowRight, Download } from 'lucide-rea
 import { useGSAP } from '@/hooks/useGSAP'
 import Link from 'next/link'
 
-const page = () => {
+const Page = () => {
   const { containerRef } = useGSAP()
 
   return (
@@ -19,14 +19,14 @@ const page = () => {
             <section className="hero-title">
               <div className="text-center mb-16">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bogue-thin text-theme leading-tight mb-4 sm:mb-6">
-                  <span className="text-theme">Let's work </span>
+                  <span className="text-theme">Let&apos;s work </span>
                   <span className="font-bogue-semibold text-theme">together</span>
                   <span className="text-theme">.</span>
                 </h1>
                 <div className="hero-subtitle">
                   <p className="text-base sm:text-lg md:text-xl font-saprona-light text-theme-alt leading-relaxed max-w-2xl mx-auto">
-                    I'm always excited to collaborate on new projects and opportunities.
-                    Whether you're looking for a <span className="font-saprona-semibold text-theme">full-stack developer</span>,
+                    I&apos;m always excited to collaborate on new projects and opportunities.
+                    Whether you&apos;re looking for a <span className="font-saprona-semibold text-theme">full-stack developer</span>,
                     <span className="font-saprona-semibold text-theme"> AI integration specialist</span>, or just want to chat about tech.
                   </p>
                 </div>
@@ -50,7 +50,7 @@ const page = () => {
                             <Mail className="w-8 h-8" />
                           </div>
                           <div>
-                            <h3 className="text-2xl font-bogue-semibold text-theme mb-1">Let's Talk Business</h3>
+                            <h3 className="text-2xl font-bogue-semibold text-theme mb-1">Let&apos;s Talk Business</h3>
                             <p className="font-saprona-light text-theme-alt">Primary contact for projects</p>
                           </div>
                         </div>
@@ -129,8 +129,8 @@ const page = () => {
                       <div className="relative z-10">
                         <h3 className="text-2xl font-bogue-semibold text-theme mb-4">Ready to Collaborate?</h3>
                         <p className="font-saprona-light text-theme-alt mb-8 leading-relaxed">
-                          I'm currently available for new projects and always excited to work on innovative solutions.
-                          Let's discuss how we can bring your ideas to life.
+                          I&apos;m currently available for new projects and always excited to work on innovative solutions.
+                          Let&apos;s discuss how we can bring your ideas to life.
                         </p>
 
                         <div className="space-y-4">
@@ -203,4 +203,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

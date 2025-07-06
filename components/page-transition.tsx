@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { gsap } from 'gsap'
 
@@ -106,15 +106,6 @@ const PageTransition = ({ children }: PageTransitionProps) => {
       document.removeEventListener('click', handleLinkClick, true)
     }
   }, [pathname, router])
-
-  // Get namespace for different pages
-  const getNamespace = (path: string) => {
-    if (path === '/') return 'home'
-    if (path.startsWith('/about')) return 'about'
-    if (path.startsWith('/contact')) return 'contact'
-    if (path.startsWith('/work')) return 'work'
-    return 'default'
-  }
 
   return (
     <>

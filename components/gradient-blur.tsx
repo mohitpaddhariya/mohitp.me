@@ -17,8 +17,8 @@ export default function GradientBlur({
 }: FloatingOrbsAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef<number>(null)
-  const blobsRef = useRef<any[]>([])
-  const orbitCentersRef = useRef<any[]>([])
+  const blobsRef = useRef<{ angle: number; speed: number; orbitRadius: number; radius: number; centerX: number; centerY: number; color: string[] }[]>([])
+  const orbitCentersRef = useRef<{ x: number; y: number }[]>([])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -46,10 +46,10 @@ export default function GradientBlur({
       canvas.style.filter = `blur(${blurAmount}px)`
     }
 
-    function shuffleArray(array: any[]) {
+    function shuffleArray<T>(array: T[]) {
       for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[array[i], array[j]] = [array[j], array[i]]
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[array[i], array[j]] = [array[j], array[i]]
       }
     }
 

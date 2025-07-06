@@ -2,6 +2,7 @@ import React from 'react'
 import MainLayout from "@/components/main-layout"
 import InteractiveSidebar from './interactive-sidebar'
 import MobileNavigation from './mobile-navigation'
+import Image from 'next/image'
 
 interface WorkDetailLayoutProps {
   children: React.ReactNode
@@ -25,10 +26,12 @@ const WorkDetailLayout = ({
       {/* Hero Image Section */}
       {heroImage && (
         <section className="w-full h-[40vh] sm:h-[50vh] lg:h-[60vh] overflow-hidden rounded-lg border border-theme-alt bg-theme-card mb-8 sm:mb-12 lg:mb-16">
-          <img
+          <Image
             src={heroImage}
             alt={heroImageAlt}
             className="w-full h-full object-cover object-center"
+            fill
+            priority
           />
         </section>
       )}

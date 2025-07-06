@@ -34,6 +34,7 @@ const Card: React.FC<CardProps> = ({ title, description, value, icon, type = 're
 // Custom remark plugin to handle card blocks
 function remarkCards() {
   return (tree: Node) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     visit(tree, 'code', (node: any) => {
       if (node.lang === 'card') {
         // Parse YAML-like syntax
@@ -47,6 +48,7 @@ function remarkCards() {
             const cleanKey = key.trim() as keyof CardProps
             const cleanValue = value.replace(/^"|"$/g, '').trim()
             if (cleanKey in props || ['title', 'description', 'value', 'icon', 'type'].includes(cleanKey)) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ;(props as any)[cleanKey] = cleanValue
             }
           }

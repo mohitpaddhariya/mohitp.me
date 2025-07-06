@@ -104,7 +104,7 @@ const InteractiveSidebar = ({ items }: InteractiveSidebarProps) => {
 
         {/* Navigation */}
         <nav className="space-y-1">
-          {items.map((item, index) => {
+          {items.map((item) => {
             const isActive = activeSection === item.id
             return (
               <button

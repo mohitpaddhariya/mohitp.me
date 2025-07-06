@@ -125,7 +125,7 @@ const MobileNavigation = ({ items }: MobileNavigationProps) => {
         className="flex overflow-x-auto space-x-1 px-4 pb-4 scrollbar-hide"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {items.map((item, index) => {
+        {items.map((item) => {
           const isActive = activeSection === item.id
           return (
             <button

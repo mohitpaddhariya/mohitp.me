@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 interface TestimonialProps {
   name: string
   title: string
@@ -12,7 +14,9 @@ const TestimonialCard = ({ name, title, company, initials, profileImage, testimo
     <div className="space-y-4 sm:space-y-6 pt-6 border-t border-theme-alt">
       <div className="flex items-center gap-3 sm:gap-4">
         <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-theme-card border border-theme-alt flex items-center justify-center">
-            <img
+            <Image
+            fill
+            priority
             src={profileImage || "/me.jpg"}
             alt={initials}
             className="w-full h-full object-cover rounded-full"

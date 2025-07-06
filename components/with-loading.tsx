@@ -22,7 +22,6 @@ export function withLoading<T extends object>(
 ) {
   const {
     LoadingComponent = ComponentLoader,
-    loadingText = 'Loading...',
     className = ''
   } = options
 
@@ -50,7 +49,7 @@ export function withLoading<T extends object>(
  */
 import { useState, useCallback } from 'react'
 
-export function useAsyncLoading<T extends any[], R>(
+export function useAsyncLoading<T extends undefined[], R>(
   asyncFn: (...args: T) => Promise<R>
 ) {
   const [isLoading, setIsLoading] = useState(false)

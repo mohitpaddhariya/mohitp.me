@@ -4,11 +4,10 @@ import MainLayout from "@/components/main-layout"
 import HeroSection from "@/components/work/hero-section"
 import SectionHeader from "@/components/work/section-header"
 import WorkItem from "@/components/work/work-item"
-import ProjectItem from "@/components/work/project-item"
 import TestimonialCard from "@/components/work/testimonial-card"
 import { useGSAP } from "@/hooks/useGSAP"
 
-const page = () => {
+const Page = () => {
   const { containerRef } = useGSAP()
 
   return (
@@ -103,7 +102,7 @@ const page = () => {
                 testimonial={
                   <>
                     <p className="text-sm sm:text-base lg:text-lg font-saprona-light text-theme leading-relaxed">
-                      Mohit is one of the most <span className="font-saprona-medium text-theme">talented developers</span> and <span className="font-saprona-medium text-theme">tech leaders</span> I've known in my career.
+                      Mohit is one of the most <span className="font-saprona-medium text-theme">talented developers</span> and <span className="font-saprona-medium text-theme">tech leaders</span> I&apos;ve known in my career.
                     </p>
                     <p className="text-sm sm:text-base lg:text-lg font-bogue-light text-theme-alt italic leading-relaxed">
                       He is incredibly versatile and knowledgeable and has super strong communication and story telling skills.
@@ -141,4 +140,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

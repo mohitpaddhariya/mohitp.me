@@ -247,7 +247,7 @@ export function generateSEOMetadata(pageConfig: Partial<SEOConfig> = {}): Metada
       url: config.canonical,
       siteName: config.openGraph?.siteName,
       locale: config.openGraph?.locale,
-      type: config.openGraph?.type as any,
+      type: config.openGraph?.type as undefined,
       images: config.openGraph?.images?.map(img => ({
         url: img.url,
         width: img.width,
@@ -256,7 +256,7 @@ export function generateSEOMetadata(pageConfig: Partial<SEOConfig> = {}): Metada
       }))
     },
     twitter: {
-      card: config.twitter?.card as any,
+      card: config.twitter?.card as undefined,
       site: config.twitter?.site,
       creator: config.twitter?.creator,
       title: config.twitter?.title || config.title,

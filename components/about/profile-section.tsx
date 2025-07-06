@@ -9,7 +9,7 @@ interface ProfileSectionProps {
   imageAlt: string
 }
 
-const ProfileSection = ({ name, role, description, imageSrc, imageAlt }: ProfileSectionProps) => {
+const ProfileSection = ({ description, imageSrc, imageAlt }: ProfileSectionProps) => {
   return (
     <>
       {/* Mobile Layout - Photo first, then content */}
