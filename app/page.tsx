@@ -42,7 +42,7 @@ const Page = () => {
                 title={["Full Stack & Gen - AI", "Devloper"]}
                 companyLogo="/work/cognitive-labs.png"
                 company="Cognitive Labs"
-                period="Jun 2024 - Present"
+                period="Jun 2025 - Present"
                 type="On Site • Hybrid"
                 slug="coming-soon"
               />
