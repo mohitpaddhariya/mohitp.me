@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 
 export default function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
   const [isDark, setIsDark] = useState(false)
   const [mounted, setMounted] = useState(false)
 
