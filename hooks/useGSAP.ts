@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -9,11 +9,66 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
+// Mobile detection utility
+const isMobile = () => {
+  if (typeof window === 'undefined') return false
+  
+  // Method 1: Screen width based (most common)
+  const screenWidth = window.innerWidth <= 768 // Adjust breakpoint as needed
+  
+  // Method 2: User agent based (more accurate for touch devices)
+  const userAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  
+  // Method 3: Touch capability
+  const touchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  
+  // Return true if any condition is met
+  return screenWidth || userAgent || touchDevice
+}
+
 export const useGSAP = () => {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [shouldDisableGSAP, setShouldDisableGSAP] = useState(false)
 
   useEffect(() => {
-    if (!containerRef.current) return
+    // Check if mobile on mount and window resize
+    const checkMobile = () => {
+      setShouldDisableGSAP(isMobile())
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  useEffect(() => {
+    if (!containerRef.current || shouldDisableGSAP) {
+      // If GSAP is disabled, ensure elements are visible
+      if (containerRef.current) {
+        containerRef.current.setAttribute('data-gsap-disabled', 'true')
+        
+        // Reset all elements to visible state
+        const elementsToShow = [
+          '.hero-title',
+          '.hero-subtitle', 
+          '.section-header-reveal',
+          '.work-item',
+          '.project-item',
+          '.testimonial-card',
+          '.about-text-item'
+        ]
+        
+        elementsToShow.forEach(selector => {
+          const elements = containerRef.current!.querySelectorAll(selector)
+          elements.forEach(el => {
+            (el as HTMLElement).style.opacity = '1'
+            ;(el as HTMLElement).style.transform = 'none'
+          })
+        })
+      }
+      return
+    }
 
     // Add data attribute to enable CSS hiding
     containerRef.current.setAttribute('data-gsap-container', 'true')
@@ -31,7 +86,7 @@ export const useGSAP = () => {
       // Hero timeline - start immediately with no delay
       let heroAnimationComplete = false
       const loadTl = gsap.timeline({ 
-        delay: 0, // Remove delay to start immediately
+        delay: 0,
         onComplete: () => {
           heroAnimationComplete = true
         }
@@ -41,17 +96,16 @@ export const useGSAP = () => {
         .to('.hero-title', { 
           y: 0, 
           opacity: 1, 
-          duration: 0.6, // Back to original timing
+          duration: 0.6,
           ease: 'power3.out' 
         })
         .to('.hero-subtitle', { 
           y: 0, 
           opacity: 1, 
-          duration: 0.5, // Back to original timing
+          duration: 0.5,
           ease: 'power3.out' 
         }, '-=0.4')
 
-      // Enable all animations immediately - no waiting for hero
       // Section headers - animate when any part enters viewport
       gsap.utils.toArray('.section-header-reveal').forEach((header: any, index: number) => {
         gsap.to(header, {
@@ -75,7 +129,7 @@ export const useGSAP = () => {
           opacity: 1,
           duration: 0.8,
           ease: 'power3.out',
-          delay: index * 0.15, // Add staggered delay for smoother appearance
+          delay: index * 0.15,
           scrollTrigger: {
             trigger: item,
             start: 'top 100%',
@@ -92,7 +146,7 @@ export const useGSAP = () => {
           opacity: 1,
           duration: 0.8,
           ease: 'power3.out',
-          delay: index * 0.1, // Add staggered delay
+          delay: index * 0.1,
           scrollTrigger: {
             trigger: item,
             start: 'top 100%',
@@ -113,25 +167,24 @@ export const useGSAP = () => {
             ease: 'power3.out',
             scrollTrigger: {
               trigger: testimonialSection,
-              start: 'top 85%', // Start when section is 85% visible
+              start: 'top 85%',
               toggleActions: 'play none none none',
               once: true
             },
-            delay: index * 0.2 // Stagger animation for each card
+            delay: index * 0.2
           })
         })
       } else {
-        // Fallback if section selector doesn't work
         gsap.utils.toArray('.testimonial-card').forEach((card: any, index: number) => {
           gsap.to(card, {
             y: 0,
             opacity: 1,
             duration: 0.8,
             ease: 'power3.out',
-            delay: index * 0.15, // Stagger the animation for better visual flow
+            delay: index * 0.15,
             scrollTrigger: {
               trigger: card,
-              start: 'top 90%', // Start animation a bit earlier
+              start: 'top 90%',
               toggleActions: 'play none none none',
               once: true
             }
@@ -146,17 +199,17 @@ export const useGSAP = () => {
           opacity: 1,
           duration: 0.8,
           ease: 'power3.out',
-          delay: 0.2, // Reduced delay for faster appearance
+          delay: 0.2,
           scrollTrigger: {
             trigger: item,
-            start: 'top 90%', // Trigger a bit earlier
+            start: 'top 90%',
             toggleActions: 'play none none none',
             once: true
           }
         })
       })
 
-      // IMPROVED: Smooth parallax effects that don't conflict with other animations
+      // Smooth parallax effects that don't conflict with other animations
       const setupParallax = () => {
         // Section titles parallax effect
         gsap.utils.toArray('.section-header-reveal').forEach((element: any) => {
@@ -189,7 +242,6 @@ export const useGSAP = () => {
               scrub: 1,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
-                // Use transform3d for better performance and smoother animation
                 const yPercent = -8 * self.progress
                 gsap.set(element, { 
                   yPercent: yPercent,
@@ -245,7 +297,7 @@ export const useGSAP = () => {
       // Setup parallax after initial animations to prevent conflicts
       setTimeout(setupParallax, 100)
 
-      // IMPROVED: Hover effects that work with parallax - use transform instead of y
+      // Hover effects that work with parallax
       gsap.utils.toArray('.work-item').forEach((item: any) => {
         let hoverTl: gsap.core.Timeline
 
@@ -253,10 +305,10 @@ export const useGSAP = () => {
           if (hoverTl) hoverTl.kill()
           hoverTl = gsap.timeline()
           hoverTl.to(item, {
-            yPercent: -2, // Use yPercent instead of y to avoid conflicts
+            yPercent: -2,
             duration: 0.3,
             ease: 'power2.out',
-            overwrite: false // Don't overwrite scroll animations
+            overwrite: false
           })
         }
         
@@ -267,7 +319,7 @@ export const useGSAP = () => {
             yPercent: 0,
             duration: 0.3,
             ease: 'power2.out',
-            overwrite: false // Don't overwrite scroll animations
+            overwrite: false
           })
         }
         
@@ -282,11 +334,11 @@ export const useGSAP = () => {
           if (hoverTl) hoverTl.kill()
           hoverTl = gsap.timeline()
           hoverTl.to(card, {
-            y: -8, // Use y instead of yPercent to avoid parallax conflicts
-            scale: 1.02, // Add subtle scale for more dynamic effect
+            y: -8,
+            scale: 1.02,
             duration: 0.4,
             ease: 'power2.out',
-            overwrite: false // Don't overwrite scroll animations
+            overwrite: false
           })
         }
         
@@ -298,7 +350,7 @@ export const useGSAP = () => {
             scale: 1,
             duration: 0.4,
             ease: 'power2.out',
-            overwrite: false // Don't overwrite scroll animations
+            overwrite: false
           })
         }
         
@@ -306,7 +358,7 @@ export const useGSAP = () => {
         card.addEventListener('mouseleave', handleMouseLeave)
       })
 
-      // IMPROVED: Project hover effects that work with scale animations
+      // Project hover effects that work with scale animations
       gsap.utils.toArray('.project-item').forEach((item: any) => {
         let hoverTl: gsap.core.Timeline
 
@@ -336,11 +388,7 @@ export const useGSAP = () => {
         item.addEventListener('mouseleave', handleMouseLeave)
       })
 
-      // REMOVED: Magnetic mouse effect - disabled as requested
-      // const heroSection = document.querySelector('.hero-title')
-      // Magnetic effect has been disabled
-
-      // IMPROVED: Refresh ScrollTrigger handling
+      // Refresh ScrollTrigger handling
       const debounce = (func: Function, wait: number) => {
         let timeout: NodeJS.Timeout
         return (...args: any[]) => {
@@ -359,10 +407,10 @@ export const useGSAP = () => {
         window.removeEventListener('resize', handleResize)
       }
 
-    }, containerRef) // Close gsap.context callback with containerRef
+    }, containerRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [shouldDisableGSAP])
 
-  return { containerRef }
+  return { containerRef, isGSAPDisabled: shouldDisableGSAP }
 }
