@@ -145,7 +145,7 @@ const Page = () => {
                           </Link>
 
                           <Link
-                            href="/resume.pdf"
+                            href="/mohit_paddhariya's_resume.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-full border-2 border-theme-border text-theme px-6 py-4 rounded-xl font-saprona-medium 
