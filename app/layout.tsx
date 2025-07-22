@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import MainLoader from "@/components/main-loader";
 import localFont from "next/font/local";
 import { generateSEOMetadata, structuredData,  baseSEOConfig } from "@/lib/seo";
 
@@ -201,6 +202,7 @@ export default function RootLayout({
 
       </head>
       <body className={`${bogue.variable} ${saprona.variable}`}>
+        <MainLoader />
         <Providers>
           {children}
         </Providers>
