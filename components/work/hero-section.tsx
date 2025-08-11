@@ -1,18 +1,21 @@
 interface HeroSectionProps {
   title: string
   subtitle: React.ReactNode
+  isScript?: boolean
 }
 
-const HeroSection = ({ title, subtitle }: HeroSectionProps) => {
+const HeroSection = ({ title, subtitle, isScript=false }: HeroSectionProps) => {
   return (
     <div className="w-full max-w-4xl">
       {/* Main Title */}
       <div className="mb-8 sm:mb-10 lg:mb-12">
-        <div>
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl 2xl:text-[100px] font-bogue-light text-theme leading-[0.9] tracking-tight">
-            Hi! I&apos;m
-          </h1>
-        </div>
+        {!isScript && (
+          <div>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl 2xl:text-[100px] font-bogue-light text-theme leading-[0.9] tracking-tight">
+              Hi! I&apos;m
+            </h1>
+          </div>
+        )}
         <div>
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl 2xl:text-[100px] font-bogue-medium text-theme leading-[0.9] tracking-tight">
             {title}

@@ -193,25 +193,22 @@ close_step
 
 # 2. Check Java 11
 print_step "Verifying Java 11 Installation"
+# Check if Java 11 is installed via /usr/libexec/java_home
 if /usr/libexec/java_home -V 2>/dev/null | grep -q "11."; then
     success "Java 11 detected and configured!"
+# Check if Java 11 is installed via Homebrew
+elif brew list | grep -q "openjdk@11"; then
+    success "OpenJDK 11 is already installed via Homebrew!"
+# Check if Java 11 is installed in /Library/Java/JavaVirtualMachines
+elif ls /Library/Java/JavaVirtualMachines/ 2>/dev/null | grep -q "11"; then
+    success "Java 11 found in JavaVirtualMachines!"
 else
-    warning "Java 11 not found in system. Checking Homebrew..."
-    if brew list | grep -q "openjdk@11"; then
-        success "OpenJDK 11 is already installed via Homebrew!"
-    else
-        info "Installing OpenJDK 11..."
-        (brew install openjdk@11) &
-        show_progress
-        exit_code=$?
-        if [ $exit_code -eq 0 ]; then
-            success "OpenJDK 11 installed successfully!"
-        else
-            error "Failed to install OpenJDK 11"
-            close_step
-            exit 1
-        fi
-    fi
+    error "Java 11 not found on your system."
+    echo -e "${CYAN}│${NC} ${YELLOW}Please install Java 11 before continuing:${NC}"
+    echo -e "${CYAN}│${NC} ${BLUE}Download from: https://adoptium.net/en-GB/temurin/releases?version=11&os=any&arch=any${NC}"
+    echo -e "${CYAN}│${NC} ${WHITE}Or install via Homebrew: ${CYAN}brew install openjdk@11${NC}"
+    close_step
+    exit 1
 fi
 
 # Set JAVA_HOME
