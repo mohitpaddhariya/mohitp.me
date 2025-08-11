@@ -118,11 +118,48 @@ print_ascii_header() {
     ║                                                                ║
     ║          🚀 Setup Script for macOS (2025) ✨                   ║
     ║                                                                ║
-    ║          👨‍💻 Author: Mohit Paddhariya | mohitp.me               ║
+    ║          👨‍💻 Author: Mohit Paddhariya | mohitp.me             ║
     ╚════════════════════════════════════════════════════════════════╝
 EOF
     echo -e "${NC}"
     echo
+}
+
+# Function to get user confirmation that works with piped input
+get_user_confirmation() {
+    # Check if we have a TTY (interactive terminal)
+    if [ -t 0 ]; then
+        # Interactive mode - can read from terminal
+        echo -e "${BOLD}${CYAN}Do you want to continue? ${WHITE}[y/N]${NC}: \c"
+        read -r user_input
+    else
+        # Non-interactive mode (piped from curl) - read from /dev/tty
+        if [ -c /dev/tty ]; then
+            echo -e "${BOLD}${CYAN}Do you want to continue? ${WHITE}[y/N]${NC}: \c"
+            read -r user_input < /dev/tty
+        else
+            # No TTY available - check for environment variable or auto-proceed
+            if [ "$HADOOP_AUTO_INSTALL" = "true" ]; then
+                echo -e "${BOLD}${CYAN}Auto-installation mode enabled.${NC}"
+                user_input="y"
+            else
+                echo -e "${YELLOW}⚠️  Running in non-interactive mode.${NC}"
+                echo -e "${WHITE}   To auto-proceed, set HADOOP_AUTO_INSTALL=true${NC}"
+                echo -e "${WHITE}   Or run: ${CYAN}HADOOP_AUTO_INSTALL=true curl -fsSL https://mohitp.me/api/scripts/hadoop-setup | bash${NC}"
+                echo
+                echo -e "${YELLOW}⚠️  Installation cancelled (no user input available).${NC}"
+                echo -e "${CYAN}═══════════════════════════════════════════════════════════════${NC}"
+                exit 0
+            fi
+        fi
+    fi
+    
+    if [[ ! "$user_input" =~ ^[Yy]$ ]]; then
+        echo
+        echo -e "${YELLOW}⚠️  Installation cancelled by user.${NC}"
+        echo -e "${CYAN}═══════════════════════════════════════════════════════════════${NC}"
+        exit 0
+    fi
 }
 
 # Main script starts here
@@ -134,15 +171,9 @@ print_header "HADOOP INSTALLATION & CONFIGURATION"
 echo -e "${BOLD}${YELLOW}⚠️  This script will install and configure Hadoop on your macOS system.${NC}"
 echo -e "${WHITE}   It will modify system settings and install packages via Homebrew.${NC}"
 echo
-echo -e "${BOLD}${CYAN}Do you want to continue? ${WHITE}[y/N]${NC}: \c"
-read -r user_input
 
-if [[ ! "$user_input" =~ ^[Yy]$ ]]; then
-    echo
-    echo -e "${YELLOW}⚠️  Installation cancelled by user.${NC}"
-    echo -e "${CYAN}═══════════════════════════════════════════════════════════════${NC}"
-    exit 0
-fi
+# Get user confirmation using the improved function
+get_user_confirmation
 
 echo
 echo -e "${GREEN}${CHECK_MARK} Starting Hadoop installation...${NC}"
