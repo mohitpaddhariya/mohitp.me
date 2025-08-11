@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import Image from "next/image"
 
 interface ProjectItemProps {
   title: string
@@ -7,6 +8,8 @@ interface ProjectItemProps {
   buttonText?: string
   buttonHref?: string
   imagePosition?: "left" | "right"
+  imageSrc?: string // Add imageSrc prop
+  imageAlt?: string // Optional: alt text for image
 }
 
 const ProjectItem = ({ 
@@ -14,7 +17,9 @@ const ProjectItem = ({
   description, 
   buttonText, 
   buttonHref = "#", 
-  imagePosition = "left" 
+  imagePosition = "left",
+  imageSrc,
+  imageAlt = title
 }: ProjectItemProps) => {
   const isImageLeft = imagePosition === "left"
 
@@ -50,12 +55,20 @@ const ProjectItem = ({
 
         {/* Image Below on Mobile */}
         <div className="w-full">
-          <div className="w-full aspect-[4/2.7] bg-theme-card border border-theme-alt rounded-lg overflow-hidden">
-            <div className="w-full h-full flex items-center justify-center">
+          <div className="w-full aspect-[4/2.7] bg-theme-card border border-theme-alt rounded-lg overflow-hidden flex items-center justify-center">
+            {imageSrc ? (
+              <Image
+                src={imageSrc}
+                alt={imageAlt}
+                width={400}
+                height={225}
+                className="w-full h-full object-cover"
+              />
+            ) : (
               <div className="text-lg font-bogue-medium text-theme-alt/40">
                 {title.toUpperCase()}
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -64,12 +77,20 @@ const ProjectItem = ({
       <div className="hidden md:grid grid-cols-10 gap-6 md:gap-8 lg:gap-12 items-start">
         {/* Image Container */}
         <div className={`col-span-5 flex items-center justify-center ${isImageLeft ? 'order-1' : 'order-2'}`}>
-          <div className="w-full aspect-[4/2.7] bg-theme-card border border-theme-alt rounded-lg overflow-hidden">
-            <div className="w-full h-full flex items-center justify-center">
+          <div className="w-full aspect-[4/2.7] bg-theme-card border border-theme-alt rounded-lg overflow-hidden flex items-center justify-center">
+            {imageSrc ? (
+              <Image
+                src={imageSrc}
+                alt={imageAlt}
+                width={400}
+                height={225}
+                className="w-full h-full object-cover"
+              />
+            ) : (
               <div className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-bogue-medium text-theme-alt/40">
                 {title.toUpperCase()}
               </div>
-            </div>
+            )}
           </div>
         </div>
 

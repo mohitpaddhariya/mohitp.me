@@ -5,6 +5,7 @@ import HeroSection from "@/components/work/hero-section"
 import SectionHeader from "@/components/work/section-header"
 import WorkItem from "@/components/work/work-item"
 import TestimonialCard from "@/components/work/testimonial-card"
+import ProjectItem from "@/components/work/project-item"
 import { useGSAP } from "@/hooks/useGSAP"
 
 const Page = () => {
@@ -62,7 +63,7 @@ const Page = () => {
         </section>
 
         {/* Side Projects Section */}
-        {/* <section className="mt-12 sm:mt-20 lg:mt-32 mb-12 sm:mb-20 lg:mb-32">
+        <section className="mt-12 sm:mt-20 lg:mt-32 mb-12 sm:mb-20 lg:mb-32">
           <div className="section-header-reveal">
             <SectionHeader title="Side projects" />
           </div>
@@ -70,19 +71,20 @@ const Page = () => {
           <div className="space-y-8 sm:space-y-12 lg:space-y-16">
             <div className="project-item parallax-medium">
               <ProjectItem
-                title="Shopicons"
+                title="Hadoop Setup Script"
                 description={
                   <>
-                    A pack of beautiful <span className="font-saprona-medium text-theme">3D shopping icons</span> done in collaboration with <span className="font-saprona-medium text-theme">Riya Mahajan</span>. Icons are easy to customize directly in Figma files and C4D and Adobe Dimension files are included for those that want advanced customization.
+                    Automated Apache Hadoop installer for macOS. Detects Java, installs in one step, and configures <span className="font-saprona-medium text-theme">HDFS, YARN, MapReduce</span>.
                   </>
                 }
-                buttonText="Buy full version for $7"
-                buttonHref="#"
+                buttonText="View Installation Guide"
+                buttonHref="/hadoop-setup"
                 imagePosition="left"
+                imageSrc="/side-projects/hadoop-setup.jpg"
               />
             </div>
           </div>
-        </section> */}
+        </section>
 
         {/* What Colleagues Have Said Section */}
         <section className="mt-12 sm:mt-20 lg:mt-32">
