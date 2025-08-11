@@ -42,5 +42,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.7,
     },
+    // Add dynamic routes for side projects
+    {
+      url: `${baseUrl}/hadoop-setup`,
+      lastModified: currentDate,
+      changeFrequency: 'yearly',
+      priority: 0.7,
+    },
   ]
 }
