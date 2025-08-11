@@ -6,6 +6,7 @@ import SectionHeader from "@/components/work/section-header"
 import { useGSAP } from "@/hooks/useGSAP"
 import { Copy, Download, Terminal, CheckCircle, AlertCircle, Zap, Shield, Settings, Coffee } from "lucide-react"
 import { useState } from "react"
+import Link from "next/link"
 
 const HadoopSetupPage = () => {
   const { containerRef } = useGSAP()
@@ -309,7 +310,7 @@ const HadoopSetupPage = () => {
                     Step-by-step guide
                   </h3>
                   <p className="text-base sm:text-lg font-saprona-light text-theme-alt leading-relaxed mb-6">
-                    Prefer to do it manually? Here's what the script does behind the scenes.
+                    Prefer to do it manually? Here&apos;s what the script does behind the scenes.
                   </p>
                 </div>
 
@@ -377,7 +378,7 @@ const HadoopSetupPage = () => {
                     Created by Mohit Paddhariya
                   </h3>
                   <p className="text-sm sm:text-base font-saprona-light text-theme-alt">
-                    FullStack & Gen-AI Developer • <a href="/" className="text-theme-link hover:text-theme-link-hover transition-colors">mohitp.me</a>
+                    FullStack & Gen-AI Developer • <Link href="/" className="text-theme-link hover:text-theme-link-hover transition-colors">mohitp.me</Link>
                   </p>
                 </div>
               </div>

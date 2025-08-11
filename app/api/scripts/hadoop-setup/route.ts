@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Read the script file from the public directory
     const scriptPath = join(process.cwd(), 'public', 'scripts', 'hadoop-setup.sh')
