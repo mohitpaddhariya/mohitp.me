@@ -118,7 +118,7 @@ print_ascii_header() {
     ║                                                                ║
     ║          🚀 Setup Script for macOS (2025) ✨                   ║
     ║                                                                ║
-    ║          👨‍💻 Author: Mohit Paddhariya | mohitp.me             ║
+    ║          👨‍💻 Author: Mohit Paddhariya | mohitp.me               ║
     ╚════════════════════════════════════════════════════════════════╝
 EOF
     echo -e "${NC}"
