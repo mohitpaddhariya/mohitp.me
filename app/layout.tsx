@@ -8,34 +8,9 @@ import { generateSEOMetadata, structuredData,  baseSEOConfig } from "@/lib/seo";
 const bogue = localFont({
   src: [
     {
-      path: "../public/fonts/Bogue/Bogue Thin.ttf",
-      weight: "100",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Bogue/Bogue Thin Italic.ttf",
-      weight: "100",
-      style: "italic",
-    },
-    {
-      path: "../public/fonts/Bogue/Bogue Light.ttf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Bogue/Bogue Light Italic.ttf",
-      weight: "300",
-      style: "italic",
-    },
-    {
       path: "../public/fonts/Bogue/Bogue Regular.ttf",
       weight: "400",
       style: "normal",
-    },
-    {
-      path: "../public/fonts/Bogue/Bogue Italic.ttf",
-      weight: "400",
-      style: "italic",
     },
     {
       path: "../public/fonts/Bogue/Bogue Medium.ttf",
@@ -43,60 +18,22 @@ const bogue = localFont({
       style: "normal",
     },
     {
-      path: "../public/fonts/Bogue/Bogue Medium Italic.ttf",
-      weight: "500",
-      style: "italic",
-    },
-    {
-      path: "../public/fonts/Bogue/Bogue Semibold.ttf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Bogue/Bogue Semibold Italic.ttf",
-      weight: "600",
-      style: "italic",
-    },
-    {
       path: "../public/fonts/Bogue/Bogue Bold.ttf",
       weight: "700",
       style: "normal",
     },
-    {
-      path: "../public/fonts/Bogue/Bogue Bold Italic.ttf",
-      weight: "700",
-      style: "italic",
-    },
-    {
-      path: "../public/fonts/Bogue/Bogue Extrabold.ttf",
-      weight: "800",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Bogue/Bogue Extrabold Italic.ttf",
-      weight: "800",
-      style: "italic",
-    },
-    {
-      path: "../public/fonts/Bogue/Bogue Black.ttf",
-      weight: "900",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Bogue/Bogue Black Italic.ttf",
-      weight: "900",
-      style: "italic",
-    },
   ],
   variable: "--font-bogue",
   display: "swap",
+  preload: true,
+  fallback: ['system-ui', 'arial'],
 });
 
 const saprona = localFont({
   src: [
     {
-      path: "../public/fonts/Saprona/Saprona-Light.ttf",
-      weight: "300",
+      path: "../public/fonts/Saprona/Saprona-Regular.ttf",
+      weight: "400",
       style: "normal",
     },
     {
@@ -104,19 +41,11 @@ const saprona = localFont({
       weight: "500",
       style: "normal",
     },
-    {
-      path: "../public/fonts/Saprona/Saprona-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Saprona/Saprona-SemiBold.ttf",
-      weight: "600",
-      style: "normal",
-    },
   ],
   variable: "--font-saprona",
   display: "swap",
+  preload: true,
+  fallback: ['system-ui', 'arial'],
 });
 
 // Enhanced SEO metadata
@@ -173,17 +102,19 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         
-        {/* DNS Prefetch & Preconnect */}
-        <link rel="dns-prefetch" href="//www.google-analytics.com" />
-        <link rel="dns-prefetch" href="//github.com" />
-        <link rel="dns-prefetch" href="//linkedin.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* DNS Prefetch & Preconnect for external resources */}
+        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
         
-        {/* Google Analytics */}
+        {/* Preload critical images */}
+        <link rel="preload" as="image" href="/work/cognitive-labs.png" fetchPriority="high" />
+        <link rel="preload" as="image" href="/work/imobile-designs.png" fetchPriority="high" />
+        
+        {/* Google Analytics - Loaded asynchronously with low priority */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-PPV7T8F7NT"
+          defer
         />
         <script
           dangerouslySetInnerHTML={{
@@ -198,6 +129,7 @@ export default function RootLayout({
               });
             `,
           }}
+          defer
         />
 
       </head>

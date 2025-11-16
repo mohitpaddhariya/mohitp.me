@@ -55,6 +55,8 @@ const WorkItem = ({ title, company, companyLogo, period, type, href, slug }: Wor
                   height={225}
                   alt={`${company} work preview`}
                   className="w-full h-full object-cover transition-all duration-300 group-hover:opacity-90"
+                  priority
+                  quality={85}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-theme-alt">
@@ -102,6 +104,8 @@ const WorkItem = ({ title, company, companyLogo, period, type, href, slug }: Wor
                   height={338}
                   alt={`${company} work preview`}
                   className="w-full h-full object-cover transition-all duration-300 group-hover:opacity-90"
+                  priority
+                  quality={85}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-theme-alt">

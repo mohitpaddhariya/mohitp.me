@@ -44,7 +44,7 @@ sizes=(16 32 48 64 96 128 192 256 512)
 
 for size in "${sizes[@]}"; do
     echo "Generating ${size}x${size} icon..."
-    convert public/me.jpg -resize ${size}x${size} public/icons/icon-${size}x${size}.png
+    convert public/me.jpg -auto-orient -resize ${size}x${size} public/icons/icon-${size}x${size}.png
 done
 
 # Generate specific favicon files
@@ -53,21 +53,21 @@ echo "📱 Generating specific favicon files..."
 echo "======================================="
 
 # Standard favicon
-convert public/me.jpg -resize 32x32 public/favicon-32x32.png
-convert public/me.jpg -resize 16x16 public/favicon-16x16.png
-convert public/me.jpg -resize 32x32 public/favicon.ico
+convert public/me.jpg -auto-orient -resize 32x32 public/favicon-32x32.png
+convert public/me.jpg -auto-orient -resize 16x16 public/favicon-16x16.png
+convert public/me.jpg -auto-orient -resize 32x32 public/favicon.ico
 
 # Apple touch icon
-convert public/me.jpg -resize 180x180 public/apple-touch-icon.png
+convert public/me.jpg -auto-orient -resize 180x180 public/apple-touch-icon.png
 
 # Android Chrome icons
-convert public/me.jpg -resize 192x192 public/android-chrome-192x192.png
-convert public/me.jpg -resize 512x512 public/android-chrome-512x512.png
+convert public/me.jpg -auto-orient -resize 192x192 public/android-chrome-192x192.png
+convert public/me.jpg -auto-orient -resize 512x512 public/android-chrome-512x512.png
 
 # PWA icons
-convert public/me.jpg -resize 144x144 public/icons/icon-144x144.png
-convert public/me.jpg -resize 152x152 public/icons/icon-152x152.png
-convert public/me.jpg -resize 384x384 public/icons/icon-384x384.png
+convert public/me.jpg -auto-orient -resize 144x144 public/icons/icon-144x144.png
+convert public/me.jpg -auto-orient -resize 152x152 public/icons/icon-152x152.png
+convert public/me.jpg -auto-orient -resize 384x384 public/icons/icon-384x384.png
 
 echo ""
 echo -e "${GREEN}✅ All favicons generated successfully!${NC}"

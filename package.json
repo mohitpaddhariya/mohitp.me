@@ -9,11 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@barba/core": "^2.10.3",
-    "@types/mdx": "^2.0.13",
-    "@types/unist": "^3.0.3",
     "gray-matter": "^4.0.3",
-    "grey-matter": "^0.0.0",
     "gsap": "^3.13.0",
     "lucide-react": "^0.525.0",
     "next": "15.3.4",
